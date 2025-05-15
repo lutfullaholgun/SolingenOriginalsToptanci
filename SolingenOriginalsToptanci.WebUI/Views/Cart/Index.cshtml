@@ -1,0 +1,37 @@
+﻿@model List<SolingenOriginalsToptanci.WebUI.Models.CartItem>
+@{
+    ViewData["Title"] = "Sepetiniz";
+}
+<h2>Sepetiniz</h2>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info">Sepetiniz boş.</div>
+}
+else
+{
+    <table class="table">
+        <thead><tr><th>Ürün</th><th>Adet</th><th>Birim Fiyat</th><th>Toplam</th></tr></thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Name<br /><small>@item.Color, @item.Model</small></td>
+                    <td>@item.Quantity</td>
+                    <td>@item.Price.ToString("C")</td>
+                    <td>@(item.Price * item.Quantity).ToString("C")</td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="3" class="text-right"><strong>Genel Toplam:</strong></td>
+                <td><strong>@ViewBag.Total.ToString("C")</strong></td>
+            </tr>
+        </tfoot>
+    </table>
+
+    <a asp-action="DownloadInvoice" class="btn btn-primary">
+        <i class="fas fa-file-pdf"></i> Fatura İndir (PDF)
+    </a>
+}
