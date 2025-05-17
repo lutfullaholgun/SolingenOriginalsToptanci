@@ -5,9 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - SolingenOriginalsToptanci.WebUI</title>
     <script type="importmap"></script>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/SolingenOriginalsToptanci.WebUI.styles.css" asp-append-version="true" />
+    <!-- Yeni Stylesheet linki -->
+    <link rel="stylesheet" href="~/theme/css/styles.css" />
 </head>
 <body>
     <header>
@@ -42,9 +41,15 @@
             &copy; 2025 - SolingenOriginalsToptanci.WebUI - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
+
+    <!-- Eski JS dosyalarının yerine yeni dosyayı ekliyoruz -->
+    <script src="~/theme/js/scripts.js"></script>
+
+    <!-- Geriye kalan eski script dosyalarını da ekleyelim -->
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
