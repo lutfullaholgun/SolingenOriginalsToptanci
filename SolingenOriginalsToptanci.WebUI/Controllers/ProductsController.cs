@@ -59,4 +59,14 @@ public class ProductsController : Controller
         HttpContext.Session.SetObjectAsJson(CartKey, cart);
         return RedirectToAction(nameof(Index));
     }
+    // GET: /Products/Details/5
+    public async Task<IActionResult> Details(int id)
+    {
+        var product = await _productRepo.GetByIdAsync(id);
+        if (product == null)
+            return NotFound();
+
+        return View(product);
+    }
+
 }

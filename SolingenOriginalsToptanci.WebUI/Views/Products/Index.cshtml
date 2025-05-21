@@ -1,7 +1,9 @@
 ﻿@model IEnumerable<SolingenOriginalsToptanci.Models.Product>
+
 @{
     ViewData["Title"] = "Ürünler";
 }
+
 <h2>Ürünler</h2>
 
 <form method="get" class="form-inline mb-3">
@@ -9,26 +11,38 @@
         <option value="">Tüm Renkler</option>
         @foreach (var c in (IEnumerable<string>)ViewBag.Colors)
         {
-            <option value="@c" selected="@(c==ViewBag.SelectedColor)">@c</option>
+            <option value="@c" selected="@(c == ViewBag.SelectedColor)">@c</option>
         }
     </select>
     <select name="model" class="form-control mr-2">
         <option value="">Tüm Modeller</option>
         @foreach (var m in (IEnumerable<string>)ViewBag.Models)
         {
-            <option value="@m" selected="@(m==ViewBag.SelectedModel)">@m</option>
+            <option value="@m" selected="@(m == ViewBag.SelectedModel)">@m</option>
         }
     </select>
     <button type="submit" class="btn btn-primary">Filtrele</button>
 </form>
 
 <table class="table table-striped">
-    <thead><tr><th>Ad</th><th>Renk</th><th>Model</th><th>Fiyat</th><th></th></tr></thead>
+    <thead>
+        <tr>
+            <th>Ad</th>
+            <th>Renk</th>
+            <th>Model</th>
+            <th>Fiyat</th>
+            <th></th>
+        </tr>
+    </thead>
     <tbody>
         @foreach (var p in Model)
         {
             <tr>
-                <td>@p.Name</td>
+                <td>
+                    <a asp-controller="Products" asp-action="Details" asp-route-id="@p.Id">
+                        @p.Name
+                    </a>
+                </td>
                 <td>@p.Color</td>
                 <td>@p.Model</td>
                 <td>@p.Price.ToString("C")</td>
@@ -40,9 +54,9 @@
                             Sepete Ekle
                         </button>
                     </form>
-
                 </td>
             </tr>
         }
     </tbody>
 </table>
+<!-- Compare this snippet from SolingenOriginalsToptanci.WebUI/Views/Products/Index.cshtml: -->
