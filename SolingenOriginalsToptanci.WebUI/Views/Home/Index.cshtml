@@ -1,263 +1,142 @@
-﻿<body>
+﻿<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solingen Bıçaklar</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .card:hover .overlay-arrow {
+            opacity: 1;
+            transform: translateY(-50%) scale(1);
+        }
+
+        .overlay-arrow {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.8);
+            opacity: 0;
+            transition: all 0.3s ease-in-out;
+            z-index: 1;
+            font-size: 2rem;
+            color: #fff;
+        }
+
+        .card-img-container {
+            position: relative;
+            overflow: hidden;
+        }
+
+            .card-img-container img {
+                width: 100%;
+                height: auto;
+            }
+    </style>
+</head>
+
+<body>
     <!-- Navigation-->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container px-4 px-lg-5">
-            
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-                    
-                    <li class="nav-item dropdown">
-                        
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="#!">All Products</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="#!">Popular Items</a></li>
-                            <li><a class="dropdown-item" href="#!">New Arrivals</a></li>
-                        </ul>
-                    </li>
-                </ul>
-                <!-- Alışveriş Sepeti Butonu -->
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4"></ul>
                 <form class="d-flex">
                     <button class="btn btn-outline-dark" type="button">
-                        <i class="bi bi-cart-fill me-1"></i> <!-- Sepet ikonu -->
+                        <i class="bi bi-cart-fill me-1"></i>
                         Sepet
                         <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
                     </button>
                 </form>
-
             </div>
         </div>
     </nav>
-   
 
-    <!-- Header-->
-    <header class="text-bg-white py-5"
-            style="background: url('/images/logo.jpg') left/200px no-repeat;">
-
+    <!-- Header -->
+    <header class="text-bg-white py-5" style="background: url('/images/logo.jpg') left/200px no-repeat;">
         <div class="container px-4 px-lg-5 my-5">
             <div class="text-center text-dark">
                 <h1 class="display-4 fw-bolder">Bıçak Setlerimiz</h1>
                 <p class="lead fw-bold text-dark-50 mb-0">Solingen Originals</p>
-             
-
             </div>
         </div>
     </header>
-    <!-- Section-->
+
+    <!-- Ürün Ekle Butonu (Sadece admin görür) -->
+    <div class="container text-end mt-4" id="addProductBox">
+        <button class="btn btn-primary" onclick="toggleAddForm()">+ Ürün Ekle</button>
+    </div>
+    <div class="container my-3" id="addProductForm" style="display: none;">
+        <form>
+            <div class="mb-3">
+                <label for="productName" class="form-label">Ürün Adı</label>
+                <input type="text" class="form-control" id="productName">
+            </div>
+            <div class="mb-3">
+                <label for="productPrice" class="form-label">Fiyat</label>
+                <input type="text" class="form-control" id="productPrice">
+            </div>
+            <div class="mb-3">
+                <label for="productImage" class="form-label">Görsel URL</label>
+                <input type="text" class="form-control" id="productImage">
+            </div>
+            <button type="submit" class="btn btn-success">Kaydet</button>
+        </form>
+    </div>
+
+    <!-- Ürünler Bölümü -->
     <section class="py-5">
         <div class="container px-4 px-lg-5 mt-5">
             <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+                <!-- Örnek Ürün Kartı -->
                 <div class="col mb-5">
-                    <div class="card h-100">
-                        <!-- Product image-->
-                        <img class="card-img-top" <img src="~/images/3.grup.jpg" />
-                        
-                        <!-- Product details-->
+                    <div class="card h-100 position-relative">
+                        <div class="card-img-container">
+                            <a href="product.html?id=1">
+                                <img class="card-img-top" src="/images/3.grup.jpg" alt="3. Grup">
+                                <div class="overlay-arrow">➜</div>
+                            </a>
+                        </div>
                         <div class="card-body p-4">
                             <div class="text-center">
-                                <!-- Product name-->
-                                <h5 class="fw-bolder">3.Grup Meyve Bıçakları'</h5>
-                                <!-- Product price-->
+                                <h5 class="fw-bolder">3.Grup Meyve Bıçakları</h5>
                                 $40.00 - $80.00
                             </div>
                         </div>
-                        <!-- Product actions-->
-                        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                            <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Sepete Ekle</a></div>
-                        </div>
-                    </div>
-                    </div>
-                <div class="col mb-5">
-                    <div class="card h-100">
-                        <!-- Sale badge-->
-                        <div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Sale</div>
-                        <!-- Product image-->
-                        <img class="card-img-top" <img src="~/images/kasap.jpg"/>
-                        >
-                        <!-- Product details-->
-                        <div class="card-body p-4">
-                            <div class="text-center">
-                                <!-- Product name-->
-                                <h5 class="fw-bolder">Kasap Bıçakları</h5>
-                                <!-- Product reviews-->
-                                <div class="d-flex justify-content-center small text-warning mb-2">
-                                    <div class="bi-star-fill"></div>
-                                    <div class="bi-star-fill"></div>
-                                    <div class="bi-star-fill"></div>
-                                    <div class="bi-star-fill"></div>
-                                    <div class="bi-star-fill"></div>
-                                </div>
-                                <!-- Product price-->
-                                <span class="text-muted text-decoration-line-through">$20.00</span>
-                                $18.00
-                            </div>
-                        </div>
-                        <!-- Product actions-->
                         <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
                             <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Sepete Ekle</a></div>
                         </div>
                     </div>
                 </div>
-                <div class="col mb-5">
-                    <div class="card h-100">
-                        <!-- Sale badge-->
-                        <div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Sale</div>
-                        <!-- Product image-->
-                        <img class="card-img-top" <img src="~/images/3n.jpg" />
-
-                        <!-- Product details-->
-                        <div class="card-body p-4">
-                            <div class="text-center">
-                                <!-- Product name-->
-                                <h5 class="fw-bolder">Gündelik Bıçaklar</h5>
-                                <!-- Product price-->
-                                <span class="text-muted text-decoration-line-through">$50.00</span>
-                                $25.00
-                            </div>
-                        </div>
-                        <!-- Product actions-->
-                        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                            <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Sepete Ekle</a></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col mb-5">
-                    <div class="card h-100">
-                        <!-- Product image-->
-                        <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="...">
-                        <!-- Product details-->
-                        <div class="card-body p-4">
-                            <div class="text-center">
-                                <!-- Product name-->
-                                <h5 class="fw-bolder">Özel Bıçaklar</h5>
-                                <!-- Product reviews-->
-                                <div class="d-flex justify-content-center small text-warning mb-2">
-                                    <div class="bi-star-fill"></div>
-                                    <div class="bi-star-fill"></div>
-                                    <div class="bi-star-fill"></div>
-                                    <div class="bi-star-fill"></div>
-                                    <div class="bi-star-fill"></div>
-                                </div>
-                                <!-- Product price-->
-                                30.00 ₺
-                            </div>
-                        </div>
-                        <!-- Product actions-->
-                        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                            <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Sepete Ekle</a></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col mb-5">
-                    <div class="card h-100">
-                        <!-- Sale badge-->
-                        <div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Sale</div>
-                        <!-- Product image-->
-                        <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="...">
-                        <!-- Product details-->
-                        <div class="card-body p-4">
-                            <div class="text-center">
-                                <!-- Product name-->
-                                <h5 class="fw-bolder">SATILIK ÜRÜN </h5>
-                                <!-- Product price-->
-                                <span class="text-muted text-decoration-line-through">$50.00</span>
-                                $25.00
-                            </div>
-                        </div>
-                        <!-- Product actions-->
-                        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                            <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Sepete Ekle</a></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col mb-5">
-                    <div class="card h-100">
-                        <!-- Product image-->
-                        <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="...">
-                        <!-- Product details-->
-                        <div class="card-body p-4">
-                            <div class="text-center">
-                                <!-- Product name-->
-                                <h5 class="fw-bolder">Yeni Bıçaklarımız</h5>
-                                <!-- Product price-->
-                                $120.00 - $280.00
-                            </div>
-                        </div>
-                        <!-- Product actions-->
-                        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                            <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Sepete Ekle</a></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col mb-5">
-                    <div class="card h-100">
-                        <!-- Sale badge-->
-                        <div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Sale</div>
-                        <!-- Product image-->
-                        <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="...">
-                        <!-- Product details-->
-                        <div class="card-body p-4">
-                            <div class="text-center">
-                                <!-- Product name-->
-                                <h5 class="fw-bolder">MS Wish</h5>
-                                <!-- Product reviews-->
-                                <div class="d-flex justify-content-center small text-warning mb-2">
-                                    <div class="bi-star-fill"></div>
-                                    <div class="bi-star-fill"></div>
-                                    <div class="bi-star-fill"></div>
-                                    <div class="bi-star-fill"></div>
-                                    <div class="bi-star-fill"></div>
-                                </div>
-                                <!-- Product price-->
-                                <span class="text-muted text-decoration-line-through">$20.00</span>
-                                $18.00
-                            </div>
-                        </div>
-                        <!-- Product actions-->
-                        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                            <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Sepete Ekle</a></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col mb-5">
-                    <div class="card h-100">
-                        <!-- Product image-->
-                        <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="...">
-                        <!-- Product details-->
-                        <div class="card-body p-4">
-                            <div class="text-center">
-                                <!-- Product name-->
-                                <h5 class="fw-bolder">Popular Item</h5>
-                                <!-- Product reviews-->
-                                <div class="d-flex justify-content-center small text-warning mb-2">
-                                    <div class="bi-star-fill"></div>
-                                    <div class="bi-star-fill"></div>
-                                    <div class="bi-star-fill"></div>
-                                    <div class="bi-star-fill"></div>
-                                    <div class="bi-star-fill"></div>
-                                </div>
-                                <!-- Product price-->
-                                $40.00
-                            </div>
-                        </div>
-                        <!-- Product actions-->
-                        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                            <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Sepete Ekle</a></div>
-                        </div>
-                    </div>
-                </div>
+                <!-- Diğer ürün kartları burada devam edecek -->
             </div>
         </div>
     </section>
-    <!-- Footer-->
+
+    <!-- Footer -->
     <footer class="py-5 bg-dark">
-        <div class="container"><p class="m-0 text-center text-white">Tüm Hakları Saklıdır  </p></div>
+        <div class="container"><p class="m-0 text-center text-white">Tüm Hakları Saklıdır</p></div>
     </footer>
-    <!-- Bootstrap core JS-->
+
+    <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- Core theme JS-->
-    <script src="js/scripts.js"></script>
+    <script>
+        function toggleAddForm() {
+            const form = document.getElementById("addProductForm");
+            form.style.display = form.style.display === "none" ? "block" : "none";
+        }
 
-
+        // Admin kontrolü: sadece admin görsün
+        const isAdmin = true; // Bunu false yaparsan "Ürün Ekle" butonu görünmez
+        if (!isAdmin) {
+            document.getElementById("addProductBox").style.display = "none";
+        }
+    </script>
 </body>
+</html>

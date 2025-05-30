@@ -12,7 +12,7 @@ public class ProductsController : Controller
     public ProductsController(IRepository<Product> productRepo)
         => _productRepo = productRepo;
 
-    // GET: /Products?color=Red&model=Classic
+    // GET: /Products
     public async Task<IActionResult> Index(string? color, string? model)
     {
         var all = await _productRepo.GetAllAsync();
@@ -28,6 +28,16 @@ public class ProductsController : Controller
         ViewBag.SelectedModel = model;
 
         return View(filtered);
+    }
+
+    // GET: /Products/Details/5
+    public async Task<IActionResult> Details(int id)
+    {
+        var product = await _productRepo.GetByIdAsync(id);
+        if (product == null)
+            return NotFound();
+
+        return View(product);
     }
 
     // POST: /Products/AddToCart
@@ -59,14 +69,22 @@ public class ProductsController : Controller
         HttpContext.Session.SetObjectAsJson(CartKey, cart);
         return RedirectToAction(nameof(Index));
     }
-    // GET: /Products/Details/5
-    public async Task<IActionResult> Details(int id)
-    {
-        var product = await _productRepo.GetByIdAsync(id);
-        if (product == null)
-            return NotFound();
 
-        return View(product);
+    // GET: /Products/Create
+    public IActionResult Create()
+    {
+        return View();
     }
 
+    // POST: /Products/Create
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Create(Product product)
+    {
+        if (!ModelState.IsValid)
+            return View(product);
+
+        await _productRepo.AddAsync(product);
+        return RedirectToAction(nameof(Index));
+    }
 }
