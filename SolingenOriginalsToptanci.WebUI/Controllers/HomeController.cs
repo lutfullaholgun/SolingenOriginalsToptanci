@@ -1,32 +1,37 @@
-using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using SolingenOriginalsToptanci.WebUI.Models;
+using SolingenOriginalsToptanci.Data.Interfaces;
+using SolingenOriginalsToptanci.Models;
+using SolingenOriginalsToptanci.WebUI.Models.ViewModels;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace SolingenOriginalsToptanci.WebUI.Controllers
+public class HomeController : Controller
 {
-    public class HomeController : Controller
+    private readonly IRepository<Product> _productRepository;
+
+    public HomeController(IRepository<Product> productRepository)
     {
-        private readonly ILogger<HomeController> _logger;
+        _productRepository = productRepository;
+    }
 
-        public HomeController(ILogger<HomeController> logger)
-        {
-            _logger = logger;
-        }
+    public async Task<IActionResult> Index()
+    {
+        var products = await _productRepository.GetAllAsync();
 
-        public IActionResult Index()
+        var viewModel = new HomeViewModel
         {
-            return View();
-        }
+            FeaturedProducts = products
+                .Take(3)
+                .Select(p => new ProductViewModel
+                {
+                    Id = p.Id,
+                    Name = p.Name,
+                    ImageUrl = p.ImageUrl,
+                    Price = p.Price
+                })
+                .ToList()
+        };
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
+        return View(viewModel);
     }
 }
