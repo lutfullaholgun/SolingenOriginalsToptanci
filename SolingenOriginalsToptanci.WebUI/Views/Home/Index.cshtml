@@ -15,12 +15,14 @@
         }
 
         header {
-            background: linear-gradient(135deg, rgba(0, 0, 0, 0.6), rgba(30, 30, 30, 0.4)), url('/images/knife-hero.jpg') center/cover no-repeat;
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.6), rgba(30, 30, 30, 0.4)), url('/images/knife-hero.jpg') center center no-repeat;
+            background-size: 100%; /* Daha büyük değer daha "yakın", daha küçük değer daha "uzak" görünüm sağlar */
             color: white;
             padding: 140px 0;
             position: relative;
             box-shadow: inset 0 0 200px rgba(0, 0, 0, 0.5);
         }
+
 
         .hero-text h1 {
             font-size: 3.5rem;
