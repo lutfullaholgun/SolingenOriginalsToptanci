@@ -25,12 +25,12 @@
             <p class="lead">@Model.Description</p>
 
             <!-- Sepete Ekle Form -->
-            <form asp-controller="Products" asp-action="AddToCart" method="post" class="mt-4">
+            <form asp-controller="Cart" asp-action="AddToCart" method="post" class="mt-4">
                 @Html.AntiForgeryToken()
                 <input type="hidden" name="productId" value="@Model.Id" />
+                <input type="hidden" name="quantity" value="1" />
 
                 <div class="input-group" style="max-width: 200px;">
-                    <input type="number" class="form-control text-center" value="1" min="1" disabled />
                     <button class="btn btn-primary w-100" type="submit">
                         <i class="bi bi-cart-fill me-1"></i> Sepete Ekle
                     </button>

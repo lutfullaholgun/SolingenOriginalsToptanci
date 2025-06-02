@@ -5,46 +5,47 @@ using SolingenOriginalsToptanci.Data.Interfaces;
 using SolingenOriginalsToptanci.Data.Repositories;
 using Rotativa.AspNetCore;
 
-var builder = WebApplication.CreateBuilder(args);  // 1) Builder burada tanýmlanýr
+var builder = WebApplication.CreateBuilder(args);
 
-// 2) Service kayýtlarý
-// -- EF Core: Baðlantý dizesini doðru þekilde alýyoruz
+// 1) EF Core: Baðlantý dizesi ile baðlan
 builder.Services.AddDbContext<SolingenContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// -- Repository: Generic repository kaydý
+// 2) Generic Repository
 builder.Services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
 
-// -- Session: Session'ý etkinleþtiriyoruz
+// 3) Session yapýlandýrmasý
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
 {
-    options.IdleTimeout = TimeSpan.FromMinutes(30);  // 30 dakikalýk oturum süresi
-    options.Cookie.HttpOnly = true;  // Sadece HTTP istekleriyle eriþilebilir olmalý
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
 });
 
-// -- MVC: MVC yapýlandýrmasý
+// 4) MVC yapýlandýrmasý
 builder.Services.AddControllersWithViews();
 
-// 3) Uygulamayý oluþtur
 var app = builder.Build();
 
-// 4) Middleware ve routing
+// 5) Hata yönetimi
 if (!app.Environment.IsDevelopment())
 {
-    // Üretim ortamýnda hata iþleme
     app.UseExceptionHandler("/Home/Error");
 }
-app.UseStaticFiles();  // Statik dosyalarý sunma
 
-app.UseRouting();  // Yönlendirmeyi etkinleþtir
+app.UseStaticFiles();
 
-app.UseSession();  // Session'ý etkinleþtiriyoruz
+app.UseRouting();
 
-// MVC yönlendirme yapýlandýrmasý
+// 6) Session middleware'i
+app.UseSession();
+
+// 7) Rotativa ayarý (PDF desteði varsa)
+RotativaConfiguration.Setup(app.Environment.WebRootPath, "Rotativa");
+
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
-// Uygulamayý çalýþtýr
 app.Run();

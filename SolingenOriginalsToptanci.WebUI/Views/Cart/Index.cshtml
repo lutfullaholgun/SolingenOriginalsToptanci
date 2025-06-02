@@ -1,37 +1,64 @@
-﻿@model List<SolingenOriginalsToptanci.WebUI.Models.CartItem>
+﻿@model List<SolingenOriginalsToptanci.Models.CartItem>
+
 @{
     ViewData["Title"] = "Sepetiniz";
+    var total = Model.Sum(item => item.Product.Price * item.Quantity);
 }
-<h2>Sepetiniz</h2>
 
-@if (!Model.Any())
-{
-    <div class="alert alert-info">Sepetiniz boş.</div>
-}
-else
-{
-    <table class="table">
-        <thead><tr><th>Ürün</th><th>Adet</th><th>Birim Fiyat</th><th>Toplam</th></tr></thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
+<div class="container py-5">
+    <h2 class="mb-4 text-center">Sepetiniz</h2>
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info text-center">
+            Sepetinizde ürün bulunmamaktadır.
+        </div>
+    }
+    else
+    {
+        <table class="table table-bordered align-middle text-center">
+            <thead class="table-light">
                 <tr>
-                    <td>@item.Name<br /><small>@item.Color, @item.Model</small></td>
-                    <td>@item.Quantity</td>
-                    <td>@item.Price.ToString("C")</td>
-                    <td>@(item.Price * item.Quantity).ToString("C")</td>
+                    <th>Görsel</th>
+                    <th>Ürün</th>
+                    <th>Adet</th>
+                    <th>Birim Fiyat</th>
+                    <th>Toplam</th>
+                    <th></th>
                 </tr>
-            }
-        </tbody>
-        <tfoot>
-            <tr>
-                <td colspan="3" class="text-right"><strong>Genel Toplam:</strong></td>
-                <td><strong>@ViewBag.Total.ToString("C")</strong></td>
-            </tr>
-        </tfoot>
-    </table>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td style="width: 100px;">
+                            <img src="@item.Product.ImageUrl" alt="@item.Product.Name" class="img-fluid rounded" />
+                        </td>
+                        <td>@item.Product.Name</td>
+                        <td>@item.Quantity</td>
+                        <td>$@item.Product.Price.ToString("F2")</td>
+                        <td>$@(item.Product.Price * item.Quantity).ToString("F2")</td>
+                        <td>
+                            <form asp-action="RemoveFromCart" method="post">
+                                <input type="hidden" name="productId" value="@item.Product.Id" />
+                                <button type="submit" class="btn btn-sm btn-outline-danger">
+                                    <i class="bi bi-trash"></i> Kaldır
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+            <tfoot>
+                <tr class="table-secondary fw-bold">
+                    <td colspan="4" class="text-end">Toplam:</td>
+                    <td colspan="2" class="text-start">$@total.ToString("F2")</td>
+                </tr>
+            </tfoot>
+        </table>
 
-    <a asp-action="DownloadInvoice" class="btn btn-primary">
-        <i class="fas fa-file-pdf"></i> Fatura İndir (PDF)
-    </a>
-}
+        <div class="text-end">
+            <a href="#" class="btn btn-success">Satın Al</a>
+        </div>
+    }
+</div>

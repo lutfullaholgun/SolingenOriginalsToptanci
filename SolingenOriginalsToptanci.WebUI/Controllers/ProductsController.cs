@@ -2,7 +2,7 @@
 using SolingenOriginalsToptanci.Data.Interfaces;
 using SolingenOriginalsToptanci.Models;
 using SolingenOriginalsToptanci.WebUI.Helpers;
-using SolingenOriginalsToptanci.WebUI.Models;
+
 
 public class ProductsController : Controller
 {
