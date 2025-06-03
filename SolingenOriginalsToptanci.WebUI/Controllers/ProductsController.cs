@@ -87,4 +87,67 @@ public class ProductsController : Controller
         await _productRepo.AddAsync(product);
         return RedirectToAction(nameof(Index));
     }
+
+    // GET: /Products/Edit/5
+    public async Task<IActionResult> Edit(int id)
+    {
+        var product = await _productRepo.GetByIdAsync(id);
+        if (product == null)
+        {
+            return NotFound();
+        }
+        return View(product);
+    }
+
+    // POST: /Products/Edit/5
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Edit(int id, Product product)
+    {
+        if (id != product.Id)
+        {
+            return BadRequest();
+        }
+
+        if (!ModelState.IsValid)
+        {
+            return View(product);
+        }
+
+        _productRepo.Update(product);
+        await _productRepo.SaveChangesAsync();
+
+        return RedirectToAction(nameof(Index));
+    }
+
+    // GET: /Products/Delete/5
+    public async Task<IActionResult> Delete(int id)
+    {
+        var product = await _productRepo.GetByIdAsync(id);
+        if (product == null)
+        {
+            return NotFound();
+        }
+
+        return View(product);
+    }
+
+    // POST: /Products/Delete/5
+    [HttpPost, ActionName("Delete")]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> DeleteConfirmed(int id)
+    {
+        var product = await _productRepo.GetByIdAsync(id);
+        if (product == null)
+        {
+            return NotFound();
+        }
+
+        _productRepo.Delete(product);
+        await _productRepo.SaveChangesAsync();
+
+        return RedirectToAction(nameof(Index));
+    }
+
+
 }

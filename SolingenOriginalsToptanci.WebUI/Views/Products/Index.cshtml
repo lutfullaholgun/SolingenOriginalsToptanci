@@ -1,49 +1,41 @@
 ﻿@model IEnumerable<SolingenOriginalsToptanci.Models.Product>
-@using Microsoft.AspNetCore.Identity
-
 @{
-    ViewData["Title"] = "Ürünler";
-    bool isAdmin = User.IsInRole("Admin");
+    ViewData["Title"] = "Ürün Listesi";
 }
 
-<div class="container py-4">
-    <h2 class="text-center mb-4">Ürünler</h2>
+<div class="container py-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold">Ürünler</h2>
+        <a asp-action="Create" class="btn btn-success">+ Yeni Ürün Ekle</a>
+    </div>
 
-    @if (isAdmin)
+    @if (!Model.Any())
     {
-        <div class="text-end mb-3">
-            <a asp-action="Create" class="btn btn-success">
-                <i class="bi bi-plus-circle"></i> Ürün Ekle
-            </a>
+        <div class="alert alert-warning text-center">
+            Henüz ürün eklenmemiş.
         </div>
     }
-
-    <div class="row row-cols-1 row-cols-md-3 g-4">
-        @foreach (var product in Model)
-        {
-            <div class="col">
-                <div class="card h-100 shadow-sm border-0">
-                    <a asp-controller="Products" asp-action="Details" asp-route-id="@product.Id" class="stretched-link text-decoration-none text-dark">
-                        <img src="@product.ImageUrl" class="card-img-top" alt="@product.Name" style="height: 200px; object-fit: cover;" />
-                    </a>
-                    <div class="card-body">
-                        <h5 class="card-title fw-semibold">@product.Name</h5>
-                        <p class="card-text text-muted mb-1">Model: @product.Model</p>
-                        <p class="card-text text-muted mb-1">Renk: @product.Color</p>
-                        <p class="card-text fw-bold text-primary">$@product.Price.ToString("F2")</p>
-                    </div>
-                    <div class="card-footer bg-white border-0 d-flex justify-content-between align-items-center">
-                        <small class="text-muted">@product.Stock adet stokta</small>
-
-                        <form asp-controller="Cart" asp-action="AddToCart" method="post" class="m-0">
-                            <input type="hidden" name="id" value="@product.Id" />
-                            <button type="submit" class="btn btn-sm btn-outline-primary">
-                                <i class="bi bi-cart-plus"></i> Sepete Ekle
-                            </button>
-                        </form>
+    else
+    {
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            @foreach (var product in Model)
+            {
+                <div class="col">
+                    <div class="card h-100 shadow-sm border-0">
+                        <img src="@product.ImageUrl" class="card-img-top" style="height: 200px; object-fit: cover;" alt="@product.Name" />
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">@product.Name</h5>
+                            <p class="card-text text-muted mb-1">Model: @product.Model</p>
+                            <p class="card-text fw-semibold text-primary">@product.Price ₺</p>
+                            <div class="mt-auto d-flex justify-content-between">
+                                <a asp-action="Details" asp-route-id="@product.Id" class="btn btn-outline-primary btn-sm">Detay</a>
+                                <a asp-action="Edit" asp-route-id="@product.Id" class="btn btn-outline-warning btn-sm">Düzenle</a>
+                                <a asp-action="Delete" asp-route-id="@product.Id" class="btn btn-outline-danger btn-sm">Sil</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-        }
-    </div>
+            }
+        </div>
+    }
 </div>

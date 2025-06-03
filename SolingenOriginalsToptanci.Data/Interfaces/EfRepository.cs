@@ -34,6 +34,7 @@ namespace SolingenOriginalsToptanci.Data.Repositories
         public async Task AddAsync(T entity)
         {
             await _dbSet.AddAsync(entity);
+            await _context.SaveChangesAsync(); // KAYDETMEYİ UNUTMA
         }
 
         public void Update(T entity)
