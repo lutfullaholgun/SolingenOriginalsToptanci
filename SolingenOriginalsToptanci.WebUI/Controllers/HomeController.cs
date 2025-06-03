@@ -2,36 +2,40 @@ using Microsoft.AspNetCore.Mvc;
 using SolingenOriginalsToptanci.Data.Interfaces;
 using SolingenOriginalsToptanci.Models;
 using SolingenOriginalsToptanci.WebUI.Models.ViewModels;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-public class HomeController : Controller
+namespace SolingenOriginalsToptanci.Controllers
 {
-    private readonly IRepository<Product> _productRepository;
-
-    public HomeController(IRepository<Product> productRepository)
+    public class HomeController : Controller
     {
-        _productRepository = productRepository;
-    }
+        private readonly IRepository<Product> _productRepository;
 
-    public async Task<IActionResult> Index()
-    {
-        var products = await _productRepository.GetAllAsync();
-
-        var viewModel = new HomeViewModel
+        public HomeController(IRepository<Product> productRepository)
         {
-            FeaturedProducts = products
-                .Take(3)
+            _productRepository = productRepository;
+        }
+
+        public async Task<IActionResult> Index()
+        {
+            var allProducts = await _productRepository.GetAllAsync();
+            var featuredProducts = allProducts
+                .Where(p => p.IsFeatured)
                 .Select(p => new ProductViewModel
                 {
                     Id = p.Id,
                     Name = p.Name,
-                    ImageUrl = p.ImageUrl,
-                    Price = p.Price
-                })
-                .ToList()
-        };
+                    Price = p.Price,
+                    ImageUrl = p.ImageUrl
+                }).ToList();
 
-        return View(viewModel);
+            var viewModel = new HomeViewModel
+            {
+                FeaturedProducts = featuredProducts
+            };
+
+            return View(viewModel);
+        }
     }
 }

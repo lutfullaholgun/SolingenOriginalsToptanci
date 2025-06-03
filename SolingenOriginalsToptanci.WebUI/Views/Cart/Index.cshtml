@@ -3,6 +3,7 @@
 @{
     ViewData["Title"] = "Sepetiniz";
     var total = Model.Sum(item => item.Product.Price * item.Quantity);
+    var trCulture = System.Globalization.CultureInfo.GetCultureInfo("tr-TR");
 }
 
 <div class="container py-5">
@@ -36,8 +37,8 @@
                         </td>
                         <td>@item.Product.Name</td>
                         <td>@item.Quantity</td>
-                        <td>$@item.Product.Price.ToString("F2")</td>
-                        <td>$@(item.Product.Price * item.Quantity).ToString("F2")</td>
+                        <td>@item.Product.Price.ToString("C", trCulture)</td>
+                        <td>@(item.Product.Price * item.Quantity).ToString("C", trCulture)</td>
                         <td>
                             <form asp-action="RemoveFromCart" method="post">
                                 <input type="hidden" name="productId" value="@item.Product.Id" />
@@ -52,7 +53,7 @@
             <tfoot>
                 <tr class="table-secondary fw-bold">
                     <td colspan="4" class="text-end">Toplam:</td>
-                    <td colspan="2" class="text-start">$@total.ToString("F2")</td>
+                    <td colspan="2" class="text-start">@total.ToString("C", trCulture)</td>
                 </tr>
             </tfoot>
         </table>

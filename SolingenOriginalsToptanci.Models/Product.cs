@@ -10,6 +10,7 @@
         public string? ImageUrl { get; set; } // Ürün görseli için
         public string? Description { get; set; } // Açıklama
         public int Stock { get; set; } // Stok adedi
+        public bool IsFeatured { get; set; }
 
     }
 

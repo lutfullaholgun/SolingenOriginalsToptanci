@@ -16,13 +16,12 @@
 
         header {
             background: linear-gradient(135deg, rgba(0, 0, 0, 0.6), rgba(30, 30, 30, 0.4)), url('/images/knife-hero.jpg') center center no-repeat;
-            background-size: 100%; /* Daha büyük değer daha "yakın", daha küçük değer daha "uzak" görünüm sağlar */
+            background-size: 100%;
             color: white;
             padding: 140px 0;
             position: relative;
             box-shadow: inset 0 0 200px rgba(0, 0, 0, 0.5);
         }
-
 
         .hero-text h1 {
             font-size: 3.5rem;
@@ -70,7 +69,6 @@
                 object-fit: cover;
             }
     </style>
-
 </head>
 <body>
 
@@ -83,7 +81,7 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="ms-auto">
-                    <a href="#" class="btn btn-outline-dark">
+                    <a href="/Cart/Index" class="btn btn-outline-dark">
                         <i class="bi bi-cart-fill me-1"></i>
                         Sepet
                         <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
@@ -93,7 +91,7 @@
         </div>
     </nav>
 
-    <!-- Hero / Giriş -->
+    <!-- Hero -->
     <header class="text-center">
         <div class="container hero-text">
             <h1 class="mb-3">Solingen Kalitesi ile Tanışın</h1>
@@ -121,7 +119,7 @@
                                 </div>
                                 <div class="card-body text-center">
                                     <h5 class="fw-bold">@product.Name</h5>
-                                    <p>@product.Price.ToString("C")</p>
+                                    <p>@product.Price.ToString("C", System.Globalization.CultureInfo.GetCultureInfo("tr-TR"))</p>
                                 </div>
                                 <div class="card-footer bg-transparent border-0 text-center">
                                     <a href="/Products/Details/@product.Id" class="btn btn-outline-primary">İncele</a>
