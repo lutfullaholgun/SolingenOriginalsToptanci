@@ -1,3 +1,8 @@
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using SolingenOriginalsToptanci.WebUI.Data;
+using SolingenOriginalsToptanci.WebUI.Models;
+
 using System;
 using Microsoft.EntityFrameworkCore;
 using SolingenOriginalsToptanci.Data;
@@ -6,6 +11,21 @@ using SolingenOriginalsToptanci.Data.Repositories;
 using Rotativa.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+    .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddDefaultTokenProviders();
+
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.LoginPath = "/Account/Login";
+    options.LogoutPath = "/Account/Logout";
+    options.AccessDeniedPath = "/Account/AccessDenied";
+});
+
 
 // 1) EF Core: Baðlantý dizesi ile baðlan
 builder.Services.AddDbContext<SolingenContext>(options =>
