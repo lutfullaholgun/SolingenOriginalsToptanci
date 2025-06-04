@@ -1,0 +1,56 @@
+﻿@model SolingenOriginalsToptanci.WebUI.Models.ViewModels.AdminLoginViewModel
+@{
+    TempData["LoginSuccess"] = null;
+}
+
+@{
+    ViewData["Title"] = "Admin Girişi";
+}
+
+<h2 class="text-center mb-4">Admin Paneli Giriş</h2>
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <form asp-action="Login" method="post">
+            <div asp-validation-summary="All" class="text-danger"></div>
+
+            <div class="mb-3">
+                <label asp-for="Email" class="form-label"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Password" class="form-label"></label>
+                <input asp-for="Password" class="form-control" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn btn-danger w-100">Yönetici Girişi</button>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const loginSuccess = '@TempData["LoginSuccess"]';
+            if (loginSuccess) {
+                const audio = new Audio("/sounds/success.mp3");
+                audio.play();
+
+                Swal.fire({
+                    title: 'Giriş Başarılı!',
+                    text: loginSuccess,
+                    icon: 'success',
+                    timer: 3000,
+                    showConfirmButton: false
+                });
+            }
+        });
+    </script>
+}
+
+

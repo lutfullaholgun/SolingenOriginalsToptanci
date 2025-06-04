@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using SolingenOriginalsToptanci.Models;
 using SolingenOriginalsToptanci.WebUI.Models;
 
 namespace SolingenOriginalsToptanci.WebUI.Data

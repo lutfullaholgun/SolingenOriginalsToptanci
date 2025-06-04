@@ -1,9 +1,10 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿
+using Microsoft.AspNetCore.Identity;
 
-namespace SolingenOriginalsToptanci.WebUI.Models
+namespace SolingenOriginalsToptanci.Models
 {
     public class ApplicationUser : IdentityUser
     {
-        public string FullName { get; set; }
+        public string FullName { get; set; } // Ad Soyad bilgisi burada saklanır
     }
 }
