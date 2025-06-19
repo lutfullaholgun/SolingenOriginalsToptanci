@@ -10,9 +10,7 @@ namespace SolingenOriginalsToptanci.Data
         {
         }
 
-        // Buraya veritabanı tablolarına karşılık gelen DbSet'leri ekle
-        // Örnek:
-        // public DbSet<Product> Products { get; set; }
-        // public DbSet<Customer> Customers { get; set; }
+        public DbSet<Product> Products { get; set; }
+        public DbSet<Customer> Customers { get; set; }
     }
 }

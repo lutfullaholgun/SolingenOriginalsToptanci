@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SolingenOriginalsToptanci.Data;
 
@@ -10,9 +11,11 @@ using SolingenOriginalsToptanci.Data;
 namespace SolingenOriginalsToptanci.Data.Migrations
 {
     [DbContext(typeof(SolingenContext))]
-    partial class SolingenContextModelSnapshot : ModelSnapshot
+    [Migration("20250619081807_MG1")]
+    partial class MG1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
