@@ -1,0 +1,26 @@
+﻿@model List<SolingenOriginalsToptanci.Models.Entities.CartItem>
+
+<h2>Sepetiniz</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Ürün</th>
+            <th>Adet</th>
+            <th>Fiyat</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Product.Name</td>
+                <td>@item.Quantity</td>
+                <td>@(item.Quantity* item.Product.Price) ₺</td>
+                <td>
+                    <a class="btn btn-danger btn-sm" href="/Cart/Remove/@item.Id">Sil</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

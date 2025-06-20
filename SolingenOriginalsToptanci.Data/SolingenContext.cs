@@ -12,5 +12,6 @@ namespace SolingenOriginalsToptanci.Data
 
         public DbSet<Product> Products { get; set; }
         public DbSet<Customer> Customers { get; set; }
+        public DbSet<CartItem> CartItems { get; set; } // <-- Eksik olan satır
     }
 }
