@@ -11,7 +11,7 @@ using SolingenOriginalsToptanci.Data;
 namespace SolingenOriginalsToptanci.Data.Migrations
 {
     [DbContext(typeof(SolingenContext))]
-    [Migration("20250619081807_MG1")]
+    [Migration("20250620061835_MG1")]
     partial class MG1
     {
         /// <inheritdoc />
