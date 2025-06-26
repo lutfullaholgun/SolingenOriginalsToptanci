@@ -16,6 +16,8 @@ namespace SolingenOriginalsToptanci.Data
         // Mevcut DbSet'leriniz
         public DbSet<Product> Products { get; set; }
         public DbSet<Customer> Customers { get; set; }
+        public DbSet<FavoriteProduct> FavoriteProducts { get; set; }
+
 
         // Eklediğiniz CartItem DbSet'i
         public DbSet<CartItem> CartItems { get; set; }
