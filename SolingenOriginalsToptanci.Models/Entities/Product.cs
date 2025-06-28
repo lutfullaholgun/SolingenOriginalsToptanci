@@ -8,32 +8,30 @@ namespace SolingenOriginalsToptanci.Models.Entities
     {
         public int Id { get; set; }
 
-        [Required, StringLength(100)]
+        [Required]
         public string Name { get; set; }
 
-        [StringLength(50)]
-        public string? Model { get; set; }
+        [Required]
+        public string Model { get; set; }
 
-        [StringLength(50)]
         public string? Color { get; set; }
 
-        [Range(0, double.MaxValue)]
+        [Required]
         public decimal Price { get; set; }
 
-        public string? ImageUrl { get; set; }
+        public int Stock { get; set; }
+
+        public string? Description { get; set; }
 
         public bool IsFeatured { get; set; }
 
-        [StringLength(1000)]
-        public string? Description { get; set; }
-
-        [Range(0, int.MaxValue)]
-        public int Stock { get; set; }
+        public string? ImageUrl { get; set; }
 
         [NotMapped]
         public IFormFile? ImageFile { get; set; }
 
-        [NotMapped]
-        public bool IsFavorite { get; set; } // Sadece view için, DB'de yok
+        // Kategori ilişkisi
+        public int CategoryId { get; set; }
+        public Category? Category { get; set; }
     }
 }
