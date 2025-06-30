@@ -43,6 +43,18 @@ namespace SolingenOriginalsToptanci
                 name: "areas",
                 pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
 
+            // SubCategory route: /Category/{categorySlug}/{subCategorySlug}
+            app.MapControllerRoute(
+                name: "subcategory",
+                pattern: "Category/{categorySlug}/{subCategorySlug}",
+                defaults: new { controller = "Category", action = "SubCategory" });
+
+            // Category route: /Category/{slug}
+            app.MapControllerRoute(
+                name: "category",
+                pattern: "Category/{slug}",
+                defaults: new { controller = "Category", action = "Index" });
+
             // Default routing
             app.MapControllerRoute(
                 name: "default",

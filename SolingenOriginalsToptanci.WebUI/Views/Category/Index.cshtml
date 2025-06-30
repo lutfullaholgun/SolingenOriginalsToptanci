@@ -1,0 +1,16 @@
+﻿@model SolingenOriginalsToptanci.Models.Entities.Category
+
+@{
+    ViewData["Title"] = Model.Name;
+}
+
+<h2>@Model.Name</h2>
+
+<div class="subcategory-list">
+    @foreach (var sub in Model.SubCategories)
+    {
+        <a href="@Url.Action("SubCategory", "Category", new { categorySlug = Model.Slug, subCategorySlug = sub.Slug })" class="btn btn-outline-primary m-2">
+            @sub.Name
+        </a>
+    }
+</div>

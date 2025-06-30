@@ -1,17 +1,13 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
 
 namespace SolingenOriginalsToptanci.Models.Entities
 {
     public class Category
     {
         public int Id { get; set; }
+        public string Name { get; set; } // Kategori adı örn: "Meyve Bıçakları"
+        public string Slug { get; set; } // URL uyumlu "meyve-bicaklari"
 
-        [Required, StringLength(100)]
-        public string Name { get; set; }
-
-        // İstersen açıklama vs. eklenebilir
-
-        // Bu satır, ilişki için (tercihi sana kalmış)
-        public ICollection<Product>? Products { get; set; }
+        public ICollection<SubCategory> SubCategories { get; set; } = new List<SubCategory>();
     }
 }

@@ -31,7 +31,7 @@
     <div class="form-group">
         <label asp-for="CategoryId">Kategori</label>
         <select asp-for="CategoryId" class="form-control"
-                asp-items="@(new SelectList(ViewBag.CategoryList, "Value", "Text"))">
+                asp-items="@(new SelectList(ViewBag.Categories, "Value", "Text"))">
             <option value="">-- Kategori Seçin --</option>
         </select>
         <span asp-validation-for="CategoryId" class="text-danger"></span>

@@ -1,0 +1,378 @@
+/* --- Renk Deðiþkenleri --- */
+:root {
+    --primary-color: #D4AF37; /* Altýn sarýsý - vurgu */
+    --secondary-color: #BFA45C; /* Daha koyu altýn */
+    --accent-color: #F5DEB3; /* Hafif sýcak altýn ton */
+    --bg-color: #0B1D51; /* Koyu lacivert ana arka plan */
+    --card-bg: #132A6B; /* Daha açýk lacivert kart arka planý */
+    --text-color: #F8F9FA; /* Açýk metin (beyazýmsý) */
+    --border-color: #2A3C7A; /* Orta koyulukta lacivert sýnýr */
+    --light-grey: #E6E6E6; /* Açýk zemin opsiyonel */
+    --white: #ffffff;
+}
+
+/* --- Reset ve Temel Ayarlar --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: 'Open Sans', sans-serif;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+a {
+    text-decoration: none;
+    color: var(--primary-color);
+}
+
+ul {
+    list-style: none;
+}
+
+h1, h2, h3, h4 {
+    font-family: 'Playfair Display', serif;
+    color: var(--primary-color);
+    margin-bottom: 15px;
+}
+
+h2 {
+    font-size: 2.5em;
+    text-align: center;
+    margin-bottom: 40px;
+    position: relative;
+    padding-bottom: 10px;
+}
+
+    h2::after {
+        content: '';
+        position: absolute;
+        left: 50%;
+        bottom: 0;
+        transform: translateX(-50%);
+        width: 60px;
+        height: 3px;
+        background-color: var(--accent-color);
+    }
+
+/* --- Butonlar --- */
+.btn-primary {
+    display: inline-block;
+    background-color: var(--primary-color);
+    color: var(--white);
+    padding: 12px 25px;
+    border-radius: 5px;
+    border: none;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+    text-transform: uppercase;
+    cursor: pointer;
+}
+
+    .btn-primary:hover {
+        background-color: var(--secondary-color);
+    }
+
+.btn-secondary {
+    display: inline-block;
+    background-color: var(--accent-color);
+    color: var(--white);
+    padding: 10px 20px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+}
+
+    .btn-secondary:hover {
+        background-color: #8D7B5D;
+    }
+
+/* --- Header --- */
+.main-header {
+    background-color: rgba(19, 42, 107, 0.95);
+    color: var(--primary-color);
+    padding: 20px 0;
+    backdrop-filter: blur(8px);
+    position: sticky;
+    top: 0;
+    z-index: 10000;
+}
+
+    .main-header .container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+.logo a {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8em;
+    font-weight: bold;
+    color: var(--primary-color);
+    display: flex;
+    align-items: center;
+}
+
+    .logo a i {
+        margin-left: 8px;
+        color: var(--accent-color);
+        font-size: 1.3em;
+        transition: transform 0.3s ease;
+    }
+
+/* --- Navbar --- */
+.main-nav ul {
+    display: flex;
+}
+
+    .main-nav ul li {
+        margin-left: 30px;
+        position: relative;
+    }
+
+        .main-nav ul li a {
+            color: var(--primary-color);
+            font-weight: 500;
+            transition: color 0.3s ease;
+            padding: 5px 0;
+            display: inline-block;
+        }
+
+            .main-nav ul li a:hover,
+            .main-nav ul li a.active {
+                color: var(--accent-color);
+            }
+
+        /* Dropdown */
+        .main-nav ul li.dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+.main-nav .dropdown-content {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    min-width: 180px;
+    background-color: var(--card-bg);
+    border-top: 3px solid var(--primary-color);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.6);
+    border-radius: 6px;
+    z-index: 2000;
+}
+
+    .main-nav .dropdown-content a {
+        color: var(--text-color);
+        padding: 12px 16px;
+        display: block;
+        text-align: left;
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+        .main-nav .dropdown-content a:hover {
+            background-color: var(--primary-color);
+            color: var(--white);
+        }
+
+/* --- Header Ýkonlarý --- */
+.header-icons a {
+    margin-left: 20px;
+    font-size: 1.3em;
+    color: var(--primary-color);
+    position: relative;
+    transition: color 0.3s ease;
+}
+
+    .header-icons a:hover {
+        color: var(--accent-color);
+    }
+
+.header-icons .cart-count {
+    background-color: var(--primary-color);
+    color: var(--white);
+    font-size: 0.7em;
+    border-radius: 50%;
+    padding: 2px 6px;
+    position: absolute;
+    top: -8px;
+    right: -12px;
+}
+
+/* --- Kartlar --- */
+.product-card,
+.testimonial-item,
+.blog-post-card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+}
+
+/* --- Footer --- */
+.main-footer {
+    background-color: var(--card-bg);
+    color: var(--text-color);
+    padding: 40px 20px;
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.footer-logo a {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8em;
+    font-weight: bold;
+    color: var(--text-color);
+}
+
+.footer-logo p {
+    font-size: 0.9em;
+    color: rgba(248, 249, 250, 0.7);
+    margin-top: 10px;
+}
+
+.footer-links h3,
+.footer-categories h3,
+.footer-social-newsletter h3 {
+    color: var(--text-color);
+    margin-bottom: 1px;
+    font-size: 1.2em;
+}
+
+.footer-links ul li,
+.footer-categories ul li {
+    margin-bottom: 10px;
+}
+
+    .footer-links ul li a,
+    .footer-categories ul li a {
+        color: rgba(248, 249, 250, 0.7);
+        transition: color 0.3s ease;
+    }
+
+        .footer-links ul li a:hover,
+        .footer-categories ul li a:hover {
+            color: var(--primary-color);
+        }
+
+/* Sosyal ikonlar */
+.social-icons a {
+    color: var(--primary-color);
+    font-size: 1.5em;
+    margin-right: 15px;
+    transition: color 0.3s ease;
+}
+
+    .social-icons a:hover {
+        color: var(--accent-color);
+    }
+
+/* --- Responsive --- */
+@media (max-width: 992px) {
+    .main-nav ul {
+        margin-right: 20px;
+    }
+
+    h2 {
+        font-size: 2em;
+    }
+}
+
+@media (max-width: 768px) {
+    .main-header .container {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .main-nav ul {
+        flex-direction: column;
+        margin-top: 15px;
+        margin-right: 0;
+    }
+
+        .main-nav ul li {
+            margin: 10px 0;
+        }
+
+    .header-icons {
+        margin-top: 15px;
+    }
+
+    h2 {
+        font-size: 1.8em;
+    }
+
+    .product-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    .footer-grid {
+        grid-template-columns: 1fr !important;
+    }
+}
+
+@media (max-width: 480px) {
+    h2 {
+        font-size: 1.6em;
+    }
+
+    /* Mobilde dropdown menüyü normal akýþta göster */
+    .main-nav .dropdown-content {
+        position: static;
+        box-shadow: none;
+        border-top: none;
+        background-color: var(--card-bg);
+    }
+}
+
+/* Navbar arka plan koyu lacivert */
+.main-header {
+    background-color: #0B1D51 !important; /* Koyu lacivert */
+    backdrop-filter: none !important; /* Eðer bulanýklýk varsa kaldýr */
+    box-shadow: none !important; /* Siyah gölge varsa kaldýr */
+}
+
+    /* Navbar link renkleri (zorunlu deðil, istersen kaldýrabilirsin) */
+    .main-header .main-nav ul li a {
+        color: var(--primary-color); /* Altýn sarýsý */
+    }
+
+/* Footer arka plan koyu lacivert */
+.main-footer {
+    background-color: #132A6B !important; /* Daha açýk koyu lacivert */
+    border-top: 1px solid #D4AF37; /* Ýnce altýn çizgi */
+}
+
+/* Footer alt çubuðu (varsa), yoksa aþaðýyý kaldýrabilirsin */
+.footer-bottom-bar {
+    background-color: #0B1D51; /* Koyu lacivert */
+    border-top: 1px solid #BFA45C; /* Daha koyu altýn */
+    color: var(--text-color);
+    padding: 10px 0;
+    text-align: center;
+    font-size: 0.9em;
+}
+
+/* Eðer footer-bottom-bar elementin yoksa, HTML'de eklemek istersen: */
+/*
+<footer class="footer-bottom-bar">
+    © 2025 Solingen Originals Toptancý - Tüm haklarý saklýdýr.
+</footer>
+*/
