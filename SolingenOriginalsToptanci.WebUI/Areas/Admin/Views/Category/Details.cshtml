@@ -1,0 +1,27 @@
+﻿@model SolingenOriginalsToptanci.Models.Entities.Category
+
+@{
+    ViewData["Title"] = "Kategori Detayları";
+}
+
+<h2>Kategori Detayları</h2>
+
+<div class="mt-4">
+    <dl class="row">
+        <dt class="col-sm-3">Kategori Adı</dt>
+        <dd class="col-sm-9">@Model.Name</dd>
+
+        <dt class="col-sm-3">Üst Kategori</dt>
+        <dd class="col-sm-9">
+            @(Model.ParentCategory != null ? Model.ParentCategory.Name : "-")
+        </dd>
+
+        <dt class="col-sm-3">Grup</dt>
+        <dd class="col-sm-9">
+            @(string.IsNullOrEmpty(Model.GroupName) ? "-" : Model.GroupName)
+        </dd>
+    </dl>
+
+    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Düzenle</a>
+    <a asp-action="Index" class="btn btn-secondary">Listeye Dön</a>
+</div>

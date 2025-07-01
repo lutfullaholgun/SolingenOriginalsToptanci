@@ -1,0 +1,32 @@
+﻿@model SolingenOriginalsToptanci.Models.Entities.Category
+
+@{
+    ViewData["Title"] = "Kategoriyi Sil";
+}
+
+<h2>Kategoriyi Sil</h2>
+
+<h4 class="text-danger">Bu kategoriyi silmek istediğinize emin misiniz?</h4>
+
+<div class="mt-4">
+    <dl class="row">
+        <dt class="col-sm-3">Kategori Adı</dt>
+        <dd class="col-sm-9">@Model.Name</dd>
+
+        <dt class="col-sm-3">Üst Kategori</dt>
+        <dd class="col-sm-9">
+            @(Model.ParentCategory != null ? Model.ParentCategory.Name : "-")
+        </dd>
+
+        <dt class="col-sm-3">Grup</dt>
+        <dd class="col-sm-9">
+            @(string.IsNullOrEmpty(Model.GroupName) ? "-" : Model.GroupName)
+        </dd>
+    </dl>
+
+    <form asp-action="Delete" method="post">
+        <input type="hidden" asp-for="Id" />
+        <button type="submit" class="btn btn-danger">Sil</button>
+        <a asp-action="Index" class="btn btn-secondary">İptal</a>
+    </form>
+</div>

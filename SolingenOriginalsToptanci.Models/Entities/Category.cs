@@ -19,6 +19,9 @@ namespace SolingenOriginalsToptanci.Models.Entities
         {
             SubCategories = new HashSet<Category>();
         }
+
+        public string? GroupName { get; set; }
+
     }
 }
 

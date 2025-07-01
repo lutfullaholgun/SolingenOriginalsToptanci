@@ -1,0 +1,39 @@
+﻿@model SolingenOriginalsToptanci.Models.Entities.Category
+
+@{
+    ViewData["Title"] = "Kategori Düzenle";
+}
+
+<h2>Kategori Düzenle</h2>
+
+<form asp-action="Edit" method="post">
+    <input type="hidden" asp-for="Id" />
+
+    <div class="form-group mb-3">
+        <label asp-for="Name" class="form-label">Kategori Adı</label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+
+    <div class="form-group mb-3">
+        <label asp-for="ParentCategoryId" class="form-label">Üst Kategori</label>
+        <select asp-for="ParentCategoryId" class="form-select"
+                asp-items="@(new SelectList(ViewBag.ParentCategories, "Id", "Name", Model.ParentCategoryId))">
+            <option value="">- Üst Kategori Yok -</option>
+        </select>
+    </div>
+
+    <div class="form-group mb-4">
+        <label asp-for="GroupName" class="form-label">Grup Adı (Opsiyonel)</label>
+        <input asp-for="GroupName" class="form-control" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Güncelle</button>
+    <a asp-action="Index" class="btn btn-secondary">Geri</a>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
