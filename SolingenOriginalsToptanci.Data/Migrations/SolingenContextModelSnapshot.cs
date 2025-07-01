@@ -269,11 +269,16 @@ namespace SolingenOriginalsToptanci.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("ParentCategoryId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Slug")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ParentCategoryId");
 
                     b.ToTable("Categories");
                 });
@@ -449,6 +454,15 @@ namespace SolingenOriginalsToptanci.Data.Migrations
                     b.Navigation("Product");
                 });
 
+            modelBuilder.Entity("SolingenOriginalsToptanci.Models.Entities.Category", b =>
+                {
+                    b.HasOne("SolingenOriginalsToptanci.Models.Entities.Category", "ParentCategory")
+                        .WithMany("SubCategories")
+                        .HasForeignKey("ParentCategoryId");
+
+                    b.Navigation("ParentCategory");
+                });
+
             modelBuilder.Entity("SolingenOriginalsToptanci.Models.Entities.FavoriteProduct", b =>
                 {
                     b.HasOne("SolingenOriginalsToptanci.Models.Entities.Product", "Product")
@@ -474,7 +488,7 @@ namespace SolingenOriginalsToptanci.Data.Migrations
             modelBuilder.Entity("SolingenOriginalsToptanci.Models.Entities.SubCategory", b =>
                 {
                     b.HasOne("SolingenOriginalsToptanci.Models.Entities.Category", "Category")
-                        .WithMany("SubCategories")
+                        .WithMany()
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

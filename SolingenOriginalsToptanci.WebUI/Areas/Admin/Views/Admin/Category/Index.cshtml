@@ -1,0 +1,42 @@
+﻿@model List<SolingenOriginalsToptanci.Models.Entities.Category>
+
+@{
+    ViewData["Title"] = "Kategori Listesi";
+}
+
+<h2>Kategori Listesi</h2>
+
+<a asp-action="Create" class="btn btn-primary mb-3">Yeni Kategori Ekle</a>
+
+<ul class="list-group">
+    @foreach (var category in Model.Where(c => c.ParentCategoryId == null))
+    {
+        <li class="list-group-item">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <strong>@category.Name</strong>
+                </div>
+                <div>
+                    <a asp-action="Edit" asp-route-id="@category.Id" class="btn btn-sm btn-warning">Düzenle</a>
+                    <a asp-action="Delete" asp-route-id="@category.Id" class="btn btn-sm btn-danger">Sil</a>
+                </div>
+            </div>
+
+            @if (Model.Any(c => c.ParentCategoryId == category.Id))
+            {
+                <ul class="list-group mt-2 ms-4">
+                    @foreach (var subCategory in Model.Where(c => c.ParentCategoryId == category.Id))
+                    {
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <span>@subCategory.Name</span>
+                            <span>
+                                <a asp-action="Edit" asp-route-id="@subCategory.Id" class="btn btn-sm btn-warning">Düzenle</a>
+                                <a asp-action="Delete" asp-route-id="@subCategory.Id" class="btn btn-sm btn-danger">Sil</a>
+                            </span>
+                        </li>
+                    }
+                </ul>
+            }
+        </li>
+    }
+</ul>
