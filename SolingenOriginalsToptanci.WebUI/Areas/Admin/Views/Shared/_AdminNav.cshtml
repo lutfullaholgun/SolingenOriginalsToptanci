@@ -1,0 +1,29 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using SolingenOriginalsToptanci.Models.Entities
+@inject SignInManager<ApplicationUser> SignInManager
+
+<ul class="navbar-nav">
+    @if (SignInManager.IsSignedIn(User))
+    {
+        <li class="nav-item">
+            <a class="nav-link" asp-area="Admin" asp-controller="Dashboard" asp-action="Index">
+                <i class="fas fa-tachometer-alt"></i> Dashboard
+            </a>
+        </li>
+        <li class="nav-item">
+            <form class="form-inline" asp-area="Admin" asp-controller="AdminAccount" asp-action="AdminLogout">
+                <button type="submit" class="nav-link btn btn-link">
+                    <i class="fas fa-sign-out-alt"></i> Çıkış Yap
+                </button>
+            </form>
+        </li>
+    }
+    else
+    {
+        <li class="nav-item">
+            <a class="nav-link" asp-area="Admin" asp-controller="AdminAccount" asp-action="AdminLogin">
+                <i class="fas fa-sign-in-alt"></i> Giriş Yap
+            </a>
+        </li>
+    }
+</ul>

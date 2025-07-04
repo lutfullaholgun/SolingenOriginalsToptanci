@@ -1,6 +1,12 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-public class ApplicationUser : IdentityUser
+namespace SolingenOriginalsToptanci.Models.Entities
 {
-    // Gerekirse ekstra alanlar eklenebilir
+    public class ApplicationUser : IdentityUser
+    {
+        // Ek alanlar buraya
+        public string FullName { get; set; } // Bu alanı senin eklemen gerekiyor
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+    }
 }

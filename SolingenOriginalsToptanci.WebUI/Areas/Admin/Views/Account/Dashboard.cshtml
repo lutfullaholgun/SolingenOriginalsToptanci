@@ -1,0 +1,54 @@
+﻿@{
+    ViewData["Title"] = "Admin Paneli";
+    Layout = "_AdminLayout"; // Admin için özel layout
+}
+
+<div class="admin-dashboard">
+    <h1><i class="fas fa-tachometer-alt"></i> Admin Paneli</h1>
+
+    <div class="admin-widgets">
+        <div class="widget">
+            <h3>Kullanıcı Yönetimi</h3>
+            <a asp-area="Admin" asp-controller="UserManagement" asp-action="Index" class="btn btn-admin">
+                <i class="fas fa-users-cog"></i> Yönet
+            </a>
+        </div>
+
+        <div class="widget">
+            <h3>Ürün Yönetimi</h3>
+            <a asp-area="Admin" asp-controller="ProductManagement" asp-action="Index" class="btn btn-admin">
+                <i class="fas fa-boxes"></i> Yönet
+            </a>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        .admin-dashboard {
+            padding: 2rem;
+            background: #f8f9fa;
+            min-height: 100vh;
+        }
+
+        .admin-widgets {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .widget {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .btn-admin {
+            background: #2c3e50;
+            color: white;
+            margin-top: 1rem;
+        }
+    </style>
+}

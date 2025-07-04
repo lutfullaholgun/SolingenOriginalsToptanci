@@ -1,0 +1,25 @@
+﻿@model List<SolingenOriginalsToptanci.Models.Entities.Product>
+@{
+    ViewData["Title"] = "Arama Sonuçları";
+}
+
+<h2>Arama Sonuçları</h2>
+
+@if (!string.IsNullOrEmpty(ViewBag.Message))
+{
+    <p class="alert alert-warning">@ViewBag.Message</p>
+}
+else
+{
+    <div class="product-grid">
+        @foreach (var product in Model)
+        {
+            <div class="product-card">
+                <img src="@product.ImageUrl" alt="@product.Name" />
+                <h3>@product.Name</h3>
+                <p>@product.Description</p>
+                <a href="@Url.Action("Details", "Product", new { id = product.Id })" class="btn-secondary">Detaylar</a>
+            </div>
+        }
+    </div>
+}

@@ -1,26 +1,71 @@
 ﻿@model List<SolingenOriginalsToptanci.Models.Entities.CartItem>
 
-<h2>Sepetiniz</h2>
-<table class="table">
-    <thead>
-        <tr>
-            <th>Ürün</th>
-            <th>Adet</th>
-            <th>Fiyat</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
+@{
+    ViewData["Title"] = "Sepetim";
+}
+
+<h2>Sepetim</h2>
+
+@if (!Model.Any())
+{
+    <p>Sepetiniz boş.</p>
+}
+else
+{
+    <table class="table table-dark table-striped">
+        <thead>
             <tr>
-                <td>@item.Product.Name</td>
-                <td>@item.Quantity</td>
-                <td>@(item.Quantity* item.Product.Price) ₺</td>
-                <td>
-                    <a class="btn btn-danger btn-sm" href="/Cart/Remove/@item.Id">Sil</a>
+                <th>Ürün</th>
+                <th>Model</th>
+                <th>Renk</th>
+                <th>Adet</th>
+                <th>Birim Fiyat</th>
+                <th>Toplam</th>
+                <th>İşlemler</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @if (item.Product != null && !string.IsNullOrEmpty(item.Product.ImageUrl))
+                        {
+                            <img src="@item.Product.ImageUrl" alt="@item.Name" style="width:60px; height:auto; margin-right:10px;" />
+                        }
+                        @item.Name
+                    </td>
+                    <td>@item.Model</td>
+                    <td>@item.Color</td>
+                    <td>
+                        <form asp-action="UpdateQuantity" method="post" style="display:inline-block;">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="cartItemId" value="@item.Id" />
+                            <input type="number" name="quantity" value="@item.Quantity" min="1" style="width:60px;" />
+                            <button type="submit" class="btn btn-sm btn-primary">Güncelle</button>
+                        </form>
+                    </td>
+                    <td>@item.Price.ToString("C")</td>
+                    <td>@(item.Price* item.Quantity).ToString("C")</td>
+                    <td>
+                        <form asp-action="Remove" method="post" style="display:inline-block;">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="cartItemId" value="@item.Id" />
+                            <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Ürünü sepetten kaldırmak istediğinize emin misiniz?');">Kaldır</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="5" style="text-align:right; font-weight:bold;">Genel Toplam:</td>
+                <td colspan="2" style="font-weight:bold;">
+                    @Model.Sum(x => x.Price * x.Quantity).ToString("C")
                 </td>
             </tr>
-        }
-    </tbody>
-</table>
+        </tfoot>
+    </table>
+
+    <a href="/Checkout" class="btn btn-success">Satın Al</a>
+}

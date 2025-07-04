@@ -1,0 +1,47 @@
+﻿@model List<SolingenOriginalsToptanci.Models.Entities.CartItem>
+
+@{
+    ViewData["Title"] = "Sipariş Onayı";
+}
+
+<h2>Sipariş Onayı</h2>
+
+@if (!Model.Any())
+{
+    <p>Sepetinizde ürün bulunmamaktadır.</p>
+}
+else
+{
+    <table class="table table-dark table-striped">
+        <thead>
+            <tr>
+                <th>Ürün</th>
+                <th>Fiyat</th>
+                <th>Adet</th>
+                <th>Toplam</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Name</td>
+                    <td>@item.Price.ToString("C")</td>
+                    <td>@item.Quantity</td>
+                    <td>@(item.Price* item.Quantity).ToString("C")</td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="3" style="text-align:right"><strong>Genel Toplam:</strong></td>
+                <td><strong>@Model.Sum(x => x.Price * x.Quantity).ToString("C")</strong></td>
+            </tr>
+        </tfoot>
+    </table>
+
+    <form asp-action="PlaceOrder" method="post">
+        <button type="submit" class="btn btn-success">Siparişi Onayla</button>
+        <a href="/Cart" class="btn btn-secondary">Sepete Dön</a>
+    </form>
+}

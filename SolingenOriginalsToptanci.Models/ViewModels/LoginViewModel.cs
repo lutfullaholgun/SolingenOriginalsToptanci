@@ -1,17 +1,18 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace SolingenOriginalsToptanci.Models
+namespace SolingenOriginalsToptanci.Models.ViewModels
 {
     public class LoginViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "Email zorunludur")]
         [EmailAddress]
         public string Email { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Şifre zorunludur")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
 
+        [Display(Name = "Beni hatırla?")]
         public bool RememberMe { get; set; }
     }
 }

@@ -1,0 +1,139 @@
+﻿@using SolingenOriginalsToptanci.Models.ViewModels
+@model RegisterViewModel
+
+@{
+    Layout = "_Layout";
+}
+
+<div class="auth-container">
+    <div class="auth-card">
+        <div class="auth-header">
+            <h2>Kayıt Ol</h2>
+            <p>Yeni bir hesap oluşturmak için bilgilerinizi girin</p>
+        </div>
+
+        <form asp-action="Register" method="post" class="auth-form">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <label asp-for="Email" class="form-label">E-Posta</label>
+                <input asp-for="Email" class="form-control" placeholder="ornek@email.com">
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Password" class="form-label">Şifre</label>
+                <div class="password-input">
+                    <input asp-for="Password" type="password" class="form-control" placeholder="••••••••">
+                    <button type="button" class="toggle-password">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                </div>
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="ConfirmPassword" class="form-label">Şifre Tekrar</label>
+                <div class="password-input">
+                    <input asp-for="ConfirmPassword" type="password" class="form-control" placeholder="••••••••">
+                    <button type="button" class="toggle-password">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                </div>
+                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="FirstName" class="form-label">Ad</label>
+                <input asp-for="FirstName" class="form-control" placeholder="Adınız">
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="LastName" class="form-label">Soyad</label>
+                <input asp-for="LastName" class="form-control" placeholder="Soyadınız">
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+
+            <div class="form-check">
+                <input asp-for="AgreeToTerms" class="form-check-input">
+                <label asp-for="AgreeToTerms" class="form-check-label">
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#termsModal">Kullanım Koşulları</a>'nı kabul ediyorum
+                </label>
+                <span asp-validation-for="AgreeToTerms" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block mt-4">Kayıt Ol</button>
+
+            <div class="auth-footer">
+                <p>Zaten hesabınız var mı? <a asp-action="Login">Giriş Yap</a></p>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Kullanım Koşulları Modal -->
+<div class="modal fade" id="termsModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content bg-dark text-white">
+            <div class="modal-header">
+                <h5 class="modal-title">Kullanım Koşulları</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                @await Html.PartialAsync("_TermsAndConditions") <!-- Koşullar için partial view -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        /* Login sayfasındaki tüm stiller aynen kullanılır */
+        .auth-container {
+            /* ...login sayfasındaki stil tanımları... */
+        }
+        /* Ekstra stil ihtiyacı olursa buraya ekleyin */
+        .form-check-label a {
+            color: var(--color-primary-light);
+            text-decoration: none;
+        }
+
+            .form-check-label a:hover {
+                text-decoration: underline;
+            }
+    </style>
+}
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Şifre göster/gizle
+            const toggleButtons = document.querySelectorAll('.toggle-password');
+            toggleButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const input = this.parentElement.querySelector('input');
+                    const type = input.getAttribute('type') === 'password' ? 'text' : 'password';
+                    input.setAttribute('type', type);
+                    this.querySelector('i').classList.toggle('fa-eye');
+                    this.querySelector('i').classList.toggle('fa-eye-slash');
+                });
+            });
+
+            // Şifre güçlülük kontrolü
+            const passwordInput = document.getElementById('Password');
+            if (passwordInput) {
+                passwordInput.addEventListener('input', function() {
+                    // Şifre karmaşıklığını kontrol et
+                });
+            }
+        });
+    </script>
+}

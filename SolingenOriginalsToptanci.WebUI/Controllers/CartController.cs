@@ -1,65 +1,78 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SolingenOriginalsToptanci.Data;
-using SolingenOriginalsToptanci.Models.Entities;
+using System.Security.Claims;
+using System.Threading.Tasks;
+using System.Linq;
 
-public class CartController : Controller
+namespace SolingenOriginalsToptanci.WebUI.Controllers
 {
-    private readonly SolingenContext _context;
-
-    public CartController(SolingenContext context)
+    [Authorize]
+    public class CartController : Controller
     {
-        _context = context;
-    }
+        private readonly SolingenContext _context;
 
-    public async Task<IActionResult> Index()
-    {
-        var customerId = "guest"; // Giriş yapılmamışsa örnek id
-        var cartItems = await _context.CartItems
-            .Include(c => c.Product)
-            .Where(c => c.CustomerId == customerId)
-            .ToListAsync();
-
-        return View(cartItems);
-    }
-
-    [HttpPost]
-    public async Task<IActionResult> AddToCart(int productId)
-    {
-        var customerId = "guest";
-
-        var cartItem = await _context.CartItems
-            .FirstOrDefaultAsync(c => c.ProductId == productId && c.CustomerId == customerId);
-
-        if (cartItem == null)
+        public CartController(SolingenContext context)
         {
-            cartItem = new CartItem
-            {
-                ProductId = productId,
-                CustomerId = customerId,
-                Quantity = 1
-            };
-            _context.CartItems.Add(cartItem);
-        }
-        else
-        {
-            cartItem.Quantity++;
+            _context = context;
         }
 
-        await _context.SaveChangesAsync();
-
-        return RedirectToAction("Index", "Product");
-    }
-
-    public async Task<IActionResult> Remove(int id)
-    {
-        var cartItem = await _context.CartItems.FindAsync(id);
-        if (cartItem != null)
+        // Sepet sayfası
+        public async Task<IActionResult> Index()
         {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (userId == null)
+                return Challenge(); // Giriş yoksa yönlendir
+
+            var cartItems = await _context.CartItems
+                .Include(c => c.Product) // Ürün bilgilerini de al
+                .Where(c => c.CustomerId == userId)
+                .OrderBy(c => c.Id)
+                .ToListAsync();
+
+            return View(cartItems);
+        }
+
+        // Sepette ürün adedi güncelleme (POST)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UpdateQuantity(int cartItemId, int quantity)
+        {
+            if (quantity < 1)
+                quantity = 1;
+
+            var cartItem = await _context.CartItems.FindAsync(cartItemId);
+            if (cartItem == null)
+                return NotFound();
+
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (cartItem.CustomerId != userId)
+                return Forbid();
+
+            cartItem.Quantity = quantity;
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        // Sepetten ürün kaldırma (POST)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Remove(int cartItemId)
+        {
+            var cartItem = await _context.CartItems.FindAsync(cartItemId);
+            if (cartItem == null)
+                return NotFound();
+
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (cartItem.CustomerId != userId)
+                return Forbid();
+
             _context.CartItems.Remove(cartItem);
             await _context.SaveChangesAsync();
-        }
 
-        return RedirectToAction("Index");
+            return RedirectToAction(nameof(Index));
+        }
     }
 }

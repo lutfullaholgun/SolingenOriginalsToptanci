@@ -16,11 +16,27 @@ namespace SolingenOriginalsToptanci.WebUI.Controllers
             _env = env;
         }
 
-        public IActionResult Index()
+        // HomeController veya ProductController içinde
+        public IActionResult Search(string query)
         {
-            var products = _context.Products.ToList();
+            if (string.IsNullOrWhiteSpace(query))
+            {
+                ViewBag.Message = "Lütfen arama terimi giriniz.";
+                return View(new List<Product>());
+            }
+
+            var products = _context.Products
+                            .Where(p => p.Name.Contains(query) || p.Description.Contains(query))
+                            .ToList();
+
+            if (!products.Any())
+            {
+                ViewBag.Message = "Aramanıza uygun ürün bulunamadı.";
+            }
+
             return View(products);
         }
+
 
         [HttpGet]
         public IActionResult Create()
