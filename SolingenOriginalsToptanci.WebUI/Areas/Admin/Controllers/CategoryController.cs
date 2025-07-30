@@ -1,9 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SolingenOriginalsToptanci.Data;
 using SolingenOriginalsToptanci.Models.Entities;
+using SolingenOriginalsToptanci.Models.ViewModels;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace SolingenOriginalsToptanci.Areas.Admin.Controllers
 {
@@ -17,7 +20,57 @@ namespace SolingenOriginalsToptanci.Areas.Admin.Controllers
             _context = context;
         }
 
-        // Kategori listesi (Alt-Üst ilişki dahil)
+        // GET: Admin/Category/Create
+        [HttpGet]
+        public IActionResult Create()
+        {
+            var model = new CategoryCreateViewModel
+            {
+                PossibleParents = _context.Categories
+                    .Where(c => c.ParentCategoryId == null)
+                    .Select(c => new SelectListItem
+                    {
+                        Value = c.Id.ToString(),
+                        Text = c.Name
+                    }).ToList()
+            };
+
+            return View(model);
+        }
+
+        // POST: Admin/Category/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(CategoryCreateViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var category = new Category
+                {
+                    Name = model.Name,
+                    Slug = model.Slug,
+                    GroupName = model.GroupName,
+                    ParentCategoryId = model.ParentCategoryId
+                };
+
+                _context.Categories.Add(category);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+
+            // Eğer ModelState geçersizse, dropdown'ı tekrar doldur
+            model.PossibleParents = _context.Categories
+                .Where(c => c.ParentCategoryId == null)
+                .Select(c => new SelectListItem
+                {
+                    Value = c.Id.ToString(),
+                    Text = c.Name
+                }).ToList();
+
+            return View(model);
+        }
+
+        // GET: Admin/Category
         public async Task<IActionResult> Index()
         {
             var categories = await _context.Categories
@@ -29,30 +82,7 @@ namespace SolingenOriginalsToptanci.Areas.Admin.Controllers
             return View(categories);
         }
 
-        // CREATE (GET)
-        public async Task<IActionResult> Create()
-        {
-            ViewBag.ParentCategories = await _context.Categories.ToListAsync();
-            return View();
-        }
-
-        // CREATE (POST)
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Category category)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Categories.Add(category);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-
-            ViewBag.ParentCategories = await _context.Categories.ToListAsync();
-            return View(category);
-        }
-
-        // EDIT (GET)
+        // GET: Admin/Category/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null) return NotFound();
@@ -61,13 +91,13 @@ namespace SolingenOriginalsToptanci.Areas.Admin.Controllers
             if (category == null) return NotFound();
 
             ViewBag.ParentCategories = await _context.Categories
-                .Where(c => c.Id != id) // Kendisini seçemesin
+                .Where(c => c.Id != id)
                 .ToListAsync();
 
             return View(category);
         }
 
-        // EDIT (POST)
+        // POST: Admin/Category/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, Category category)
@@ -98,7 +128,7 @@ namespace SolingenOriginalsToptanci.Areas.Admin.Controllers
             return View(category);
         }
 
-        // DELETE (GET)
+        // GET: Admin/Category/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null) return NotFound();
@@ -112,13 +142,12 @@ namespace SolingenOriginalsToptanci.Areas.Admin.Controllers
             return View(category);
         }
 
-        // DELETE (POST)
+        // POST: Admin/Category/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var category = await _context.Categories.FindAsync(id);
-
             if (category != null)
             {
                 _context.Categories.Remove(category);

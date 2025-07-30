@@ -12,8 +12,8 @@ using SolingenOriginalsToptanci.Data;
 namespace SolingenOriginalsToptanci.Data.Migrations
 {
     [DbContext(typeof(SolingenContext))]
-    [Migration("20250704140050_Migle")]
-    partial class Migle
+    [Migration("20250730122738_NMG")]
+    partial class NMG
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

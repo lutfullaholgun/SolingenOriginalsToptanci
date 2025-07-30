@@ -16,6 +16,13 @@ namespace SolingenOriginalsToptanci.WebUI.Controllers
             _env = env;
         }
 
+        public async Task<IActionResult> Index()
+        {
+            var products = await _context.Products.ToListAsync();
+            return View(products);
+        }
+
+
         // HomeController veya ProductController içinde
         public IActionResult Search(string query)
         {

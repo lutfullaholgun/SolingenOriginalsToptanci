@@ -14,7 +14,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;700&display=swap" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <style>
         body {
@@ -56,33 +55,21 @@
             position: relative;
         }
 
-        .dropdown-content {
-            display: none;
-            position: absolute;
+        .dropdown-menu {
             background-color: #222;
-            color: white;
-            min-width: 200px;
-            padding: 10px;
-            top: 100%;
-            left: 0;
-            z-index: 10;
+            border: none;
             border-radius: 5px;
+            padding: 10px;
         }
 
-            .dropdown-content a {
-                color: white;
-                text-decoration: none;
-                display: block;
-                padding: 5px 10px;
+        .dropdown-item {
+            color: white !important;
+            padding: 5px 10px;
+        }
+
+            .dropdown-item:hover {
+                background-color: #444 !important;
             }
-
-                .dropdown-content a:hover {
-                    background-color: #444;
-                }
-
-        .dropdown:hover .dropdown-content {
-            display: block;
-        }
 
         .hero-section {
             background: url('https://images.unsplash.com/photo-1610878164529-c9b8d924dac6?auto=format&fit=crop&w=1920&q=80') no-repeat center/cover;
@@ -239,44 +226,6 @@
             }
 
         /* Sepet Stilleri */
-        .cart-wrapper {
-            position: relative;
-        }
-
-        .cart-dropdown {
-            display: none;
-            position: absolute;
-            right: 0;
-            background: #111;
-            color: white;
-            width: 320px;
-            max-height: 400px;
-            overflow-y: auto;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
-            z-index: 1000;
-        }
-
-            .cart-dropdown.active {
-                display: block;
-            }
-
-        .cart-items {
-            padding: 10px 0;
-            min-height: 100px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .empty-cart-message {
-            text-align: center;
-            padding: 20px;
-            color: #aaa;
-            font-size: 0.9em;
-        }
-
         .cart-count {
             position: absolute;
             top: -8px;
@@ -310,49 +259,6 @@
                 background-color: #b89529;
             }
 
-        /* Kullanıcı Menüsü */
-        .user-menu {
-            position: relative;
-        }
-
-        .user-dropdown {
-            display: none;
-            position: absolute;
-            right: 0;
-            background: #111;
-            color: white;
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
-            z-index: 1000;
-            min-width: 200px;
-        }
-
-            .user-dropdown.active {
-                display: block;
-            }
-
-            .user-dropdown p {
-                margin: 0 0 10px 0;
-                padding-bottom: 10px;
-                border-bottom: 1px solid #333;
-            }
-
-            .user-dropdown button {
-                background: none;
-                border: none;
-                color: white;
-                cursor: pointer;
-                width: 100%;
-                text-align: left;
-                padding: 5px 0;
-                transition: color 0.3s ease;
-            }
-
-                .user-dropdown button:hover {
-                    color: #D4AF37;
-                }
-
         .header-icons {
             display: flex;
             gap: 20px;
@@ -373,10 +279,6 @@
             .main-nav ul {
                 flex-direction: column;
                 gap: 10px;
-            }
-
-            .dropdown-content {
-                position: static;
             }
 
             .container.nav-wrapper {
@@ -410,39 +312,45 @@
 
             <!-- Sağ taraf: ikonlar ve mini sepet -->
             <div class="header-icons">
-                <a href="#" id="search-icon"><i class="fas fa-search"></i></a>
+                <!-- Arama İkonu (DÜZELTİLDİ) -->
+                <a href="#" id="search-toggle" class="me-2">
+                    <i class="fas fa-search"></i>
+                </a>
 
-                <div class="cart-wrapper">
-                    <a href="#" id="cart-icon" style="position: relative;">
+                <!-- Sepet Dropdown -->
+                <div class="dropdown">
+                    <a href="#" id="cart-icon" data-bs-toggle="dropdown">
                         <i class="fas fa-shopping-cart"></i>
                         <span class="cart-count">0</span>
                     </a>
-                    <div class="cart-dropdown">
-                        <div class="cart-items">
-                            <p class="empty-cart-message">Sepetiniz boş</p>
-                        </div>
-                        <button id="go-to-cart-btn">Sepete Git</button>
-                    </div>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><p class="dropdown-item-text">Sepetiniz boş</p></li>
+                        <li><a href="/Cart" class="dropdown-item">Sepete Git</a></li>
+                    </ul>
                 </div>
 
+                <!-- Kullanıcı Dropdown -->
                 @if (SignInManager.IsSignedIn(User))
                 {
-                    var user = await UserManager.GetUserAsync(User);
-                    <div class="user-menu">
-                        <a href="#" id="user-icon"><i class="fas fa-user"></i></a>
-                        <div class="user-dropdown">
-                            <p>@user.Email</p>
-                            <form method="post" action="/Account/Logout">
-                                <button type="submit">Çıkış Yap</button>
-                            </form>
-                        </div>
+                    <div class="dropdown">
+                        <a href="#" id="user-icon" data-bs-toggle="dropdown">
+                            <i class="fas fa-user"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><span class="dropdown-item-text">@User.Identity?.Name</span></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <form method="post" action="/Account/Logout" class="logout-form">
+                                    @Html.AntiForgeryToken()
+                                    <button type="submit" class="dropdown-item">Çıkış Yap</button>
+                                </form>
+                            </li>
+                        </ul>
                     </div>
                 }
                 else
                 {
-                    <div class="user-menu">
-                        <a href="/Account/Login"><i class="fas fa-user"></i></a>
-                    </div>
+                    <a href="/Account/Login"><i class="fas fa-user"></i></a>
                 }
             </div>
         </div>
@@ -452,13 +360,72 @@
         @RenderBody()
     </main>
 
-    <!-- Arama Popup -->
+    <!-- Arama Popup (DÜZELTİLDİ - body sonuna taşındı) -->
+    
+        </div>
+    </footer>
+
+    @RenderSection("Styles", required: false)
+    @RenderSection("Scripts", required: false)
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+                        document.addEventListener('DOMContentLoaded', function () {
+            const searchForm = document.getElementById('search-form');
+            const searchInput = document.getElementById('search-input');
+            const searchPopup = document.getElementById('search-popup');
+
+            if (searchForm) {
+                searchForm.addEventListener('submit', function (e) {
+                    const val = searchInput.value.trim();
+                    if (val === '') {
+                        e.preventDefault();
+                        alert('Lütfen arama terimi giriniz');
+                        searchInput.focus();
+                    }
+                });
+            }
+
+            const searchToggle = document.getElementById('search-toggle');
+            const searchClose = document.getElementById('search-close');
+
+            if (searchToggle) {
+                searchToggle.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    searchPopup.classList.add('active');
+                    searchInput.focus();
+                });
+            }
+
+            if (searchClose) {
+                searchClose.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    searchPopup.classList.remove('active');
+                });
+            }
+
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape') {
+                    searchPopup.classList.remove('active');
+                }
+            });
+        });
+
+        // Sepet sayacı fonksiyonu dışarıda, fazladan kapanış parantezi yok
+        function updateCartCount(count) {
+            const cartCountElements = document.querySelectorAll('.cart-count');
+            cartCountElements.forEach(el => {
+                el.textContent = count;
+            });
+        }
+    </script>
+
     <div class="search-popup" id="search-popup">
         <div class="search-popup-content">
-            <form method="get" action="/Product/Search">
-                <input id="search-input" type="text" name="query" placeholder="Ürün ara..." required autocomplete="off" />
-                <button type="submit" class="btn-search" id="btn-search">Ara</button>
-                <span class="search-popup-close" id="search-popup-close">&times;</span>
+            <form method="get" action="/Product/Search" id="search-form">
+                <input type="text" name="query" id="search-input" placeholder="Ürün ara..." autocomplete="off" required>
+                <button type="submit" class="btn-search">Ara</button>
+                <span class="search-popup-close" id="search-close">&times;</span>
             </form>
         </div>
     </div>
@@ -479,88 +446,6 @@
                     <a href="#"><i class="fab fa-youtube"></i></a>
                 </div>
             </div>
-        </div>
-    </footer>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-    <script>
-        $(function () {
-            // Arama popup kontrolü
-            const $searchPopup = $('#search-popup');
-            const $searchIcon = $('#search-icon');
-            const $searchClose = $('#search-popup-close');
-
-            $searchIcon.on('click', function (e) {
-                e.preventDefault();
-                $searchPopup.addClass('active');
-                $('#search-input').focus();
-            });
-
-            $searchClose.on('click', function (e) {
-                e.preventDefault();
-                $searchPopup.removeClass('active');
-            });
-
-            $(document).on('keydown', function (e) {
-                if (e.key === "Escape") {
-                    $searchPopup.removeClass('active');
-                }
-            });
-
-            // Sepet dropdown kontrolü
-            const $cartIcon = $('#cart-icon');
-            const $cartDropdown = $('.cart-dropdown');
-
-            $cartIcon.on('click', function (e) {
-                e.preventDefault();
-                $cartDropdown.toggleClass('active');
-                $('.user-dropdown').removeClass('active');
-            });
-
-            // Kullanıcı dropdown kontrolü
-            const $userIcon = $('#user-icon');
-            const $userDropdown = $('.user-dropdown');
-
-            $userIcon.on('click', function (e) {
-                e.preventDefault();
-                $userDropdown.toggleClass('active');
-                $cartDropdown.removeClass('active');
-            });
-
-            // Sayfa dışında tıklama olursa dropdownları kapat
-            $(document).on('click', function (e) {
-                if (!$(e.target).closest('.cart-wrapper').length) {
-                    $cartDropdown.removeClass('active');
-                }
-                if (!$(e.target).closest('.user-menu').length) {
-                    $userDropdown.removeClass('active');
-                }
-                if (!$(e.target).closest('#search-icon').length &&
-                    !$(e.target).closest('.search-popup-content').length) {
-                    $searchPopup.removeClass('active');
-                }
-            });
-
-            // Sepete git butonu
-            $('#go-to-cart-btn').on('click', function () {
-                window.location.href = '/Cart';
-            });
-
-            // Sepet sayacını sıfırla
-            function updateCartCount(count) {
-                $('.cart-count').text(count);
-            }
-
-            // Başlangıçta sepeti boş göster
-            updateCartCount(0);
-        });
-    </script>
-    <head>
-        <!-- Diğer head içeriği -->
-        @RenderSection("Styles", required: false)
-    </head>
-
-    @RenderSection("Scripts", required: false)
 </body>
 </html>

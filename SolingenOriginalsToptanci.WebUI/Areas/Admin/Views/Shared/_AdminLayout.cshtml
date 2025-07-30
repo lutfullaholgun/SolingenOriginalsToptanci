@@ -2,39 +2,272 @@
 <html lang="tr">
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Admin Paneli</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
-</head>
-<body class="admin-body">
-    <header class="admin-header">
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark">
-            <div class="container">
-                <a class="navbar-brand" asp-area="Admin" asp-controller="Dashboard" asp-action="Index">
-                    <i class="fas fa-lock"></i> Admin Paneli
-                </a>
-                <partial name="_AdminNav" />
-            </div>
-        </nav>
-    </header>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>Solingen Toptancı - Yönetim Paneli</title>
+    <link href="/admin/css/admin.css" rel="stylesheet" />
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
 
-    <div class="container-fluid">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
+    <style>
+        body.sb-nav-fixed {
+            background-color: #121212;
+            color: #eee;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .sb-topnav {
+            background-color: #1f1f1f !important;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.7);
+        }
+
+            .sb-topnav .navbar-brand {
+                color: #90caf9;
+                font-weight: 600;
+            }
+
+            .sb-topnav .btn-link {
+                color: #90caf9;
+            }
+
+            .sb-topnav .form-control {
+                background-color: #2c2c2c;
+                color: #eee;
+                border: 1px solid #444;
+            }
+
+            .sb-topnav .btn-primary {
+                background-color: #1976d2;
+                border: none;
+            }
+
+                .sb-topnav .btn-primary:hover {
+                    background-color: #1565c0;
+                }
+
+        .sb-sidenav-dark {
+            background-color: #1e1e2f !important;
+            color: #bbb;
+        }
+
+            .sb-sidenav-dark .sb-sidenav-menu-heading {
+                color: #80cbc4;
+                font-weight: 700;
+                letter-spacing: 1px;
+                margin-top: 1rem;
+                margin-bottom: 0.5rem;
+            }
+
+            .sb-sidenav-dark .nav-link {
+                color: #bbb;
+                font-weight: 500;
+                transition: color 0.3s ease;
+            }
+
+                .sb-sidenav-dark .nav-link:hover,
+                .sb-sidenav-dark .nav-link.active {
+                    color: #90caf9;
+                    background-color: #2a2a40;
+                    border-radius: 4px;
+                }
+
+            .sb-sidenav-dark .sb-nav-link-icon {
+                color: #64b5f6;
+            }
+
+        .sb-sidenav-collapse-arrow i {
+            color: #90caf9;
+        }
+
+        .sb-sidenav-footer {
+            background-color: #141421;
+            color: #777;
+            font-size: 0.9rem;
+            padding: 1rem 1.5rem;
+            text-align: center;
+            border-top: 1px solid #2e2e40;
+        }
+
+        main {
+            background-color: #181818;
+            min-height: 100vh;
+            padding-top: 1rem;
+        }
+
+        .card {
+            background-color: #252535;
+            border: none;
+            color: #ccc;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.7);
+        }
+
+        .card-body code {
+            background-color: #1f1f2f;
+            color: #90caf9;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+
+        footer.bg-light {
+            background-color: #1f1f1f !important;
+            color: #666 !important;
+            box-shadow: inset 0 1px 0 #2a2a40;
+        }
+
+        footer a {
+            color: #90caf9 !important;
+            text-decoration: none;
+        }
+
+            footer a:hover {
+                text-decoration: underline;
+            }
+        /* Scrollbar for sidenav */
+        #layoutSidenav_nav {
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: #90caf9 #1e1e2f;
+        }
+
+            #layoutSidenav_nav::-webkit-scrollbar {
+                width: 8px;
+            }
+
+            #layoutSidenav_nav::-webkit-scrollbar-track {
+                background: #1e1e2f;
+            }
+
+            #layoutSidenav_nav::-webkit-scrollbar-thumb {
+                background-color: #90caf9;
+                border-radius: 10px;
+                border: 2px solid #1e1e2f;
+            }
+    </style>
+</head>
+<body class="sb-nav-fixed">
+    <nav class="sb-topnav navbar navbar-expand navbar-dark">
+        <!-- Navbar Brand-->
+        <a class="navbar-brand ps-3" href="index.html">Solingen Toptancı</a>
+        <!-- Sidebar Toggle-->
+        <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href=""><i class="fas fa-bars"></i></button>
+        <!-- Navbar Search-->
+        <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+            <div class="input-group">
+                <input class="form-control" type="text" placeholder="Arama yap..." aria-label="Arama yap..." aria-describedby="btnNavbarSearch" />
+                <button class="btn btn-primary" id="btnNavbarSearch" type="button"><i class="fas fa-search"></i></button>
+            </div>
+        </form>
+        <!-- Navbar User-->
+        <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fas fa-user fa-fw"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-dark" aria-labelledby="navbarDropdown">
+                    <li><a class="dropdown-item" href="">Ayarlar</a></li>
+                    <li><a class="dropdown-item" href="">Aktivite Kayıtları</a></li>
+                    <li><hr class="dropdown-divider" /></li>
+                    <li><a class="dropdown-item" href="">Çıkış Yap</a></li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+    <div id="layoutSidenav">
+        <div id="layoutSidenav_nav">
+            <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+                <div class="sb-sidenav-menu">
+                    <div class="nav">
+                        <div class="sb-sidenav-menu-heading">Ana Menü</div>
+                        <a class="nav-link" href="index.html">
+                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                            Anasayfa
+                        </a>
+                        <div class="sb-sidenav-menu-heading">Yönetim</div>
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseUrunler" aria-expanded="false" aria-controls="collapseUrunler">
+                            <div class="sb-nav-link-icon"><i class="fas fa-box-open"></i></div>
+                            Ürünler
+                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                        </a>
+                        <div class="collapse" id="collapseUrunler" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                            <nav class="sb-sidenav-menu-nested nav">
+                                <a class="nav-link" href="/Admin/Product/Index">Ürün Listesi</a>
+                                <a class="nav-link" href="/Admin/Product/Create">Ürün Ekle</a>
+                            </nav>
+                        </div>
+                        <a class="nav-link" href="/Admin/Category/Index">
+                            <div class="sb-nav-link-icon"><i class="fas fa-tags"></i></div>
+                            Kategoriler
+                        </a>
+                        <a class="nav-link" href="/Admin/Order/Index">
+                            <div class="sb-nav-link-icon"><i class="fas fa-shopping-cart"></i></div>
+                            Siparişler
+                        </a>
+                        <a class="nav-link" href="/Admin/Customer/Index">
+                            <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
+                            Müşteriler
+                        </a>
+                        <a class="nav-link" href="/Admin/Reports/Index">
+                            <div class="sb-nav-link-icon"><i class="fas fa-chart-line"></i></div>
+                            Raporlar
+                        </a>
+                        <div class="sb-sidenav-menu-heading">Ayarlar</div>
+                        <a class="nav-link" href="/Admin/Account/Settings">
+                            <div class="sb-nav-link-icon"><i class="fas fa-cog"></i></div>
+                            Hesap Ayarları
+                        </a>
+                        <a class="nav-link" href="/Admin/Account/Logout">
+                            <div class="sb-nav-link-icon"><i class="fas fa-sign-out-alt"></i></div>
+                            Çıkış Yap
+                        </a>
+                    </div>
+                </div>
+                <div class="sb-sidenav-footer">
+                    <div class="small">Giriş Yapan:</div>
+                    Solingen Toptancı
+                </div>
+            </nav>
+        </div>
+        <div id="layoutSidenav_content">
+            <main>
+                <div class="container-fluid px-4">
+                    <h1 class="mt-4">Yönetim Paneli</h1>
+                    <ol class="breadcrumb mb-4">
+                        <li class="breadcrumb-item"><a href="index.html">Anasayfa</a></li>
+                        <li class="breadcrumb-item active">Panel</li>
+                    </ol>
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            Bu sayfa, koyu tema yan menü kullanımına örnektir.
+                            <code>.sb-sidenav-dark</code> sınıfı ile koyu renk düzeni sağlanır.
+                        </div>
+                    </div>
+                </div>
+                <div class="container-fluid px-4 py-4">
+                    @RenderBody()
+                </div>
+            </main>
+            <footer class="py-4 bg-light mt-auto">
+                <div class="container-fluid px-4">
+                    <div class="d-flex align-items-center justify-content-between small">
+                        <div class="text-muted">© 2025 Solingen Toptancı</div>
+                        <div>
+                            <a href="#">Gizlilik Politikası</a>
+                            &middot;
+                            <a href="#">Kullanım Koşulları</a>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
     </div>
 
-    <footer class="admin-footer">
-        <div class="container">
-            &copy; @DateTime.Now.Year - Solingen Originals Admin Paneli
-        </div>
-    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <script src="/admin/js/admin.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <script src="/admin/js/admin.js"></script>
 
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
+    @RenderSection("Scripts", required: false)
 </body>
 </html>
+
+

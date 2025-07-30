@@ -2,88 +2,51 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using SolingenOriginalsToptanci.Models.Entities;
-using SolingenOriginalsToptanci.Models.ViewModels;
 
 namespace SolingenOriginalsToptanci.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Route("Admin/[controller]")]
+    [AllowAnonymous]
     public class AdminAccountController : Controller
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly ILogger<AdminAccountController> _logger;
 
-        public AdminAccountController(
-            UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager,
-            ILogger<AdminAccountController> logger)
+        public AdminAccountController(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager)
         {
-            _userManager = userManager;
             _signInManager = signInManager;
-            _logger = logger;
+            _userManager = userManager;
         }
 
-        [HttpGet("Login")]
-        [AllowAnonymous]
-        public IActionResult AdminLogin()
+        [HttpGet]
+        public IActionResult Login()
         {
-            if (_signInManager.IsSignedIn(User))
-                return RedirectToAction("Dashboard");
-
             return View();
         }
 
-        [HttpPost("Login")]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AdminLogin(LoginViewModel model)
+        [HttpPost]
+        public async Task<IActionResult> Login(string email, string password)
         {
-            if (ModelState.IsValid)
+            var user = await _userManager.FindByEmailAsync(email);
+            if (user != null && await _userManager.IsInRoleAsync(user, "Admin"))
             {
-                if (!model.Email.EndsWith("@solingen.com"))
-                {
-                    ModelState.AddModelError(string.Empty, "Geçersiz admin girişi");
-                    return View(model);
-                }
-
-                var result = await _signInManager.PasswordSignInAsync(
-                    model.Email, model.Password, model.RememberMe, lockoutOnFailure: true);
+                var result = await _signInManager.PasswordSignInAsync(user.UserName, password, true, lockoutOnFailure: false);
 
                 if (result.Succeeded)
                 {
-                    var user = await _userManager.FindByEmailAsync(model.Email);
-                    if (await _userManager.IsInRoleAsync(user, "Admin"))
-                    {
-                        _logger.LogInformation("Admin girişi: {Email}", model.Email);
-                        return RedirectToAction("Dashboard");
-                    }
-                    await _signInManager.SignOutAsync();
+                    return RedirectToAction("Index", "Home", new { area = "Admin" });
                 }
-                if (result.IsLockedOut)
-                {
-                    _logger.LogWarning("Kilitli admin hesabı: {Email}", model.Email);
-                    return RedirectToAction("Lockout");
-                }
-                ModelState.AddModelError(string.Empty, "Geçersiz giriş");
             }
-            return View(model);
-        }
 
-        [Authorize(Roles = "Admin")]
-        [HttpGet("Dashboard")]
-        public IActionResult Dashboard()
-        {
+            ModelState.AddModelError(string.Empty, "Geçersiz e-posta veya şifre.");
             return View();
         }
 
-        [HttpPost("Logout")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AdminLogout()
+        [HttpGet]
+        public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
-            _logger.LogInformation("Admin çıkış yaptı");
-            return RedirectToAction("AdminLogin");
+            return RedirectToAction("Login");
         }
     }
 }
